@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 714" preserveAspectRatio="none">
+  <defs>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <path fill="white" filter="url(#soft)" d="M35 43 Q120 12 208 30 T405 23 T609 32 T800 22 Q900 17 964 46 Q980 135 966 217 T976 393 T962 565 Q978 645 947 675 Q851 692 756 679 T560 690 T354 675 T170 687 Q86 690 35 660 Q14 591 30 509 T22 334 T34 167 Q19 88 35 43Z"/>
+</svg>

@@ -43,7 +43,7 @@
     heroProgress.classList.add('is-active');
     var frameIndex = 0;
     coupleStory.src = frames[frameIndex];
-    // รอภาพเด้งขึ้นกลางจอเสร็จก่อน แล้วค่อยเล่นภาพทั้ง 10 เฟรม
+    // รอภาพขึ้นกลางจอก่อนเริ่มเล่นเฟรมตามจังหวะเดิม
     setTimeout(function(){
       var frameTimer = setInterval(function(){
         if(frameIndex >= frames.length - 1){
@@ -55,13 +55,13 @@
       }, 350);
     }, 600);
     setTimeout(function(){ hero.classList.add('is-story-settled'); }, 4100);
-    setTimeout(function(){ hero.classList.add('is-framed'); }, 5250);
-    setTimeout(function(){ hero.classList.add('is-copy-visible'); }, 5550);
+    setTimeout(function(){ hero.classList.add('is-framed'); }, 5600);
+    setTimeout(function(){ hero.classList.add('is-copy-visible'); }, 6100);
     // ปลดการเลื่อนหลังข้อความและฉากเปิดปรากฏครบแล้ว
     setTimeout(function(){
       document.documentElement.classList.remove('hero-locked');
       document.body.classList.remove('hero-locked');
-    }, 6650);
+    }, 8000);
   }
 
   function startMusic(){
@@ -112,14 +112,17 @@
   // ให้แต่ละส่วนของหน้าเนื้อหาค่อย ๆ ปรากฏเมื่อเลื่อนมาถึง
   function setupScrollReveal(){
     var targets = document.querySelectorAll(
-      '#site .section, #site .story-card, #site .detail-card, #site .sch-row, #site .cd-box, #site .g-cell, #site .dress-swatch, #site .loc-box, #site .gift-panel, #site .rsvp-panel'
+      '#site .section .eyebrow, #site .section .lede, #site .countdown-date, #site .story-card, #site .detail-card, #site .sch-row, #site .cd-box, #site .g-cell, #site .dress-swatch, #site .loc-box, #site .gift-panel, #site .rsvp-panel, #site .venue-art, #site .dress-illustration'
     );
-    if(!('IntersectionObserver' in window)) return;
+    if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     document.documentElement.classList.add('motion-ready');
-    targets.forEach(function(target, index){
+    targets.forEach(function(target){
       target.classList.add('reveal');
-      target.style.setProperty('--reveal-delay', (index % 4) * 85 + 'ms');
+      var siblings = Array.prototype.filter.call(target.parentElement.children, function(child){ return child.matches('.cd-box, .dress-swatch, .sch-row, .g-cell'); });
+      var delay = Math.max(0, siblings.indexOf(target)) * 110;
+      if(target.matches('.lede, .countdown-date')) delay = 140;
+      target.style.setProperty('--reveal-delay', Math.min(delay, 440) + 'ms');
     });
 
     var observer = new IntersectionObserver(function(entries){
@@ -135,6 +138,7 @@
   setupScrollReveal();
 
   function goFullscreen(){
+    opening.classList.add('card-focus');
     // จับตำแหน่ง/ขนาดปัจจุบันบนจอ (พิกเซลจริง) แล้ว "แช่แข็ง" เป็น position:fixed
     // ที่จุดเดิมก่อน เพื่อไม่ให้การ์ดกระโดดตำแหน่ง จากนั้นค่อย transition ไปเต็มจอ
     var rect = cardHolder.getBoundingClientRect();
