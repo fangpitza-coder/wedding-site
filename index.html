@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kittipong &amp; Phimphitcha — The Wedding</title>
+
+<!-- ฟอนต์: Noto Serif Thai สำหรับข้อความไทย และฟอนต์ลายเซ็นสำหรับชื่อคู่บ่าวสาว -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&family=Italianno&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="locked">
+
+<!-- =========================================================
+     OPENING SCREEN — ซองจดหมาย (tap / Enter / Space เพื่อเปิด)
+     ========================================================= -->
+<div id="opening-screen" role="button" tabindex="0" aria-label="เปิดการ์ดแต่งงาน">
+  <div class="opening-florals" aria-hidden="true">
+    <span class="floral-cut floral-top-left"></span>
+    <span class="floral-cut floral-top-right"></span>
+    <span class="floral-cut floral-bottom-left"></span>
+    <span class="floral-cut floral-bottom-right"></span>
+  </div>
+  <div class="petal-shower" id="petalShower" aria-hidden="true"></div>
+  <!-- ข้อความอยู่หลังชั้นซองและการ์ด จึงถูกการ์ดทับได้ระหว่างเปิด -->
+  <div class="opening-message" aria-hidden="true">
+    <span>Wedding Of</span>
+    <strong><i>Kittipong</i><b>&amp;</b><i>Phimphitcha</i></strong>
+
+  </div>
+  <div class="envelope-stage" id="envelopeStage">
+
+    <!-- ชั้นที่ 1: ซองด้านหลัง (ล่างสุด) -->
+    <img class="env-layer env-back" src="assets/envelope-back.webp" alt="">
+
+    <!-- การ์ดเชิญ (ซ่อนอยู่ในซองก่อนเปิด) -->
+    <div class="card-holder" id="cardHolder">
+      <img src="assets/invitation-card.webp" alt="การ์ดแต่งงาน Kittipong และ Phimphitcha">
+
+    </div>
+
+    <!-- ชั้นที่ 2: ซองด้านหน้า/ปากซอง (ทับการ์ด ให้เห็นแค่โผล่จากช่อง) -->
+    <img class="env-layer env-pocket" src="assets/envelope-pocket.webp" alt="">
+
+    <!-- ฝาซอง หมุนเปิดแบบ 3D จากขอบบน -->
+    <img class="env-layer env-flap" src="assets/envelope-flap.webp" alt="">
+
+    <!-- ภาพซองปิดสนิท แสดงตอนเริ่มต้นก่อนกด -->
+    <img class="env-layer env-closed" src="assets/envelope-closed.webp" alt="ซองจดหมาย">
+
+    <!-- ตราครั่ง -->
+    <img class="seal" src="assets/wax-seal.webp" alt="">
+  </div>
+  <div class="tap-hint">TAP TO OPEN</div>
+  <div class="opening-motto" aria-hidden="true">TWO HEARTS<br>ONE JOURNEY<br>FOREVER</div>
+</div>
+
+<!-- เสียงเอฟเฟกต์ตอนแตะเปิดซอง (เล่นทันทีตอนกด) -->
+<audio id="openSound" preload="auto">
+  <source src="assets/envelope-open.mp3" type="audio/mpeg">
+</audio>
+
+<!-- เสียงกระดาษเลื่อน: เล่นตอนการ์ดเลื่อนขึ้นพ้นซอง -->
+<audio id="slideSound" preload="auto">
+  <source src="assets/paper-slide.mp3" type="audio/mpeg">
+</audio>
+
+<!-- เพลงพื้นหลัง: เริ่มเล่นหลังเข้าสู่หน้าเนื้อหาแล้วเท่านั้น จึงไม่มีวิดีโอปรากฏบนหน้าเว็บ -->
+<audio id="musicPlayer" loop preload="auto">
+  <source src="assets/sweet-nothing.mp3" type="audio/mpeg">
+</audio>
+<button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="เล่น/หยุดเพลงประกอบ">
+  <svg class="icon-off" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M4 4l16 16"/></svg>
+  <svg class="icon-on" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+</button>
+
+<!-- =========================================================
+     MAIN SITE
+     ========================================================= -->
+<div id="site">
+
+  <!-- 1) HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-botanical" aria-hidden="true">
+      <span class="floral-cut floral-left"></span>
+      <span class="floral-cut floral-bottom"></span>
+    </div>
+    <figure class="hero-couple">
+      <img class="couple-story" id="coupleStory" src="assets/hero-story-01.png" alt="ภาพเคลื่อนไหวเรื่องราวของคู่บ่าวสาว Kittipong และ Phimphitcha">
+    </figure>
+    <!-- Remove hero-progress--message to restore the original progress bar. -->
+    <div class="hero-progress hero-progress--message" id="heroProgress" aria-hidden="true">
+      <span class="progress-bar"></span>
+      <div class="journey-loading">การเดินทางของเรากำลังจะเริ่มต้นขึ้น<i class="journey-dots"></i></div>
+    </div>
+    <div class="hero-copy">
+      <div class="kicker">The Wedding Of</div>
+      <h1>Kittipong <span class="amp">&#10084;</span> Phimphitcha</h1>
+      <div class="venue"><!-- ข้อมูลสถานที่: แก้ชื่อสถานที่จัดงานตรงนี้ --> Chanchiva</div>
+      <div class="date-row">
+        <span>28</span><span class="dot"></span><span>November</span><span class="dot"></span><span>2026</span>
+      </div>
+      <p class="tagline">A little moment, a lifetime together</p>
+    </div>
+    <div class="scroll-cue"></div>
+  </section>
+
+  <!-- 2) COUNTDOWN -->
+  <section class="section" id="countdown">
+    <div class="container center">
+      <div class="eyebrow">Counting Down</div>
+      <div class="countdown-wrap" id="countdownWrap">
+        <div class="cd-box"><div class="cd-num" id="cdDays">00</div><div class="cd-label">Days</div></div>
+        <div class="cd-box"><div class="cd-num" id="cdHours">00</div><div class="cd-label">Hours</div></div>
+        <div class="cd-box"><div class="cd-num" id="cdMins">00</div><div class="cd-label">Minutes</div></div>
+        <div class="cd-box"><div class="cd-num" id="cdSecs">00</div><div class="cd-label">Seconds</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) SCHEDULE -->
+  <section class="section" id="schedule">
+    <div class="container center">
+      <div class="eyebrow">Wedding Day Schedule</div>
+      <p class="lede">ขอเรียนเชิญทุกท่านร่วมเป็นส่วนหนึ่งในวันพิเศษของเรา</p>
+    </div>
+    <div class="container">
+      <div class="schedule-list">
+        <div class="sch-row">
+          <div class="sch-time">16.29</div>
+          <div class="schedule-icon icon-rings" aria-hidden="true"></div>
+          <div class="sch-what"><span>RING CEREMONY</span><p>ร่วมเป็นสักขีพยานในช่วงเวลาสำคัญของเรา</p></div>
+        </div>
+        <div class="sch-row">
+          <div class="sch-time">17.09</div>
+          <div class="schedule-icon icon-water" aria-hidden="true"></div>
+          <div class="sch-what"><span>WATER BLESSING</span><p>รับคำอวยพรจากผู้ใหญ่ที่เคารพรัก</p></div>
+        </div>
+        <div class="sch-row">
+          <div class="sch-time">18.49</div>
+          <div class="schedule-icon icon-cheers" aria-hidden="true"></div>
+          <div class="sch-what"><span>WEDDING RECEPTION</span><p>ร่วมรับประทานอาหารและเฉลิมฉลองไปด้วยกัน</p></div>
+        </div>
+        <div class="sch-row">
+          <div class="sch-time">20.59</div>
+          <div class="schedule-icon icon-party" aria-hidden="true"></div>
+          <div class="sch-what"><span>AFTER PARTY</span><p>สนุกไปด้วยกันในค่ำคืนพิเศษ</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5) GALLERY -->
+  <section class="section" id="gallery">
+    <div class="container center">
+      <div class="eyebrow">Gallery</div>
+      <!-- แทนที่ .g-cell ด้วย <img src="..."> เมื่อมีภาพจริง -->
+      <div class="gallery">
+        <div class="g-cell">ภาพที่ 1</div>
+        <div class="g-cell">ภาพที่ 2</div>
+        <div class="g-cell">ภาพที่ 3</div>
+        <div class="g-cell">ภาพที่ 4</div>
+        <div class="g-cell">ภาพที่ 5</div>
+        <div class="g-cell">ภาพที่ 6</div>
+        <div class="g-cell">ภาพที่ 7</div>
+        <div class="g-cell">ภาพที่ 8</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6) LOCATION -->
+  <section class="section" id="location">
+    <div class="container center">
+      <div class="eyebrow">Location</div>
+      <div class="loc-box">
+        <!-- ข้อมูลสถานที่: แก้ชื่อ/ที่อยู่จริงตรงนี้ -->
+        
+        <p>เลขที่ ... ถนน ... ตำบล/แขวง ... อำเภอ/เขต ... จังหวัด ...</p>
+        <a class="btn solid" href="https://maps.app.goo.gl/iJ3Cxn6R8EV3e9rb6?g_st=ic" target="_blank" rel="noopener">เปิดใน Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7) DRESS CODE -->
+  <section class="section" id="dresscode">
+    <div class="container center">
+      <div class="eyebrow">Dress Code</div>
+      <p class="lede">ขอเชิญแขกผู้มีเกียรติร่วมงานในโทนสีที่กลมกลืนกับธีมงาน</p>
+      <div class="dress-row">
+        <div class="dress-swatch"><div class="chip" style="background:#faf5ec"></div><span>Ivory</span></div>
+        <div class="dress-swatch"><div class="chip" style="background:#d9c39c"></div><span>Champagne</span></div>
+        <div class="dress-swatch"><div class="chip" style="background:#7a6142"></div><span>Warm Brown</span></div>
+        <div class="dress-swatch"><div class="chip" style="background:#8da07e"></div><span>Sage</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8) CONGRATULATIONS / GIFT -->
+  <section class="section" id="gift">
+    <div class="container center">
+      <div class="eyebrow">With Love</div>
+      <p class="lede">ขอบคุณทุกความรักและคำอวยพรที่มอบให้ในวันพิเศษของเรา</p>
+    </div>
+    <div class="container">
+      <form class="gift-panel" id="giftForm">
+        <img class="payment-qr" src="assets/payment-qr.png" alt="QR PromptPay สำหรับร่วมแสดงความยินดี">
+        <div class="gift-fields">
+          <div class="f-row">
+            <label for="transferName">ชื่อผู้โอน</label>
+            <input type="text" id="transferName" name="transferName" required placeholder="ชื่อ-นามสกุล">
+          </div>
+          <div class="f-row">
+            <label class="slip-label" for="transferSlip">แนบสลิปการโอนเงิน <span>เลือกไฟล์</span></label>
+            <input class="slip-input" type="file" id="transferSlip" name="transferSlip" accept="image/*">
+          </div>
+          <div class="f-row">
+            <label for="giftMessage">เขียนคำอวยพรเล็ก ๆ น้อย ๆ</label>
+            <textarea id="giftMessage" name="giftMessage" placeholder="ขอให้มีความสุขมาก ๆ ตลอดไป"></textarea>
+          </div>
+          <button type="submit" class="btn solid">ส่งความยินดี</button>
+          <p class="rsvp-note" id="giftNote">ขอบคุณสำหรับความรักและคำอวยพรนะคะ/ครับ</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 9) RSVP -->
+  <section class="section" id="rsvp">
+    <div class="container center">
+      <div class="eyebrow">RSVP</div>
+      <p class="lede">กรุณายืนยันก่อนวันที่ ... เพื่อความสะดวกในการจัดเตรียมงาน</p>
+    </div>
+    <div class="container">
+      <!--
+        การเชื่อมฟอร์ม RSVP:
+        ฟอร์มนี้เป็น client-side เท่านั้น ยังไม่ได้เชื่อมต่อปลายทางส่งข้อมูล
+        แนะนำให้เชื่อมกับ Google Form / Airtable / Formspree หรือ backend ของคุณเอง
+        โดยแก้ที่ฟังก์ชัน handleRsvpSubmit() ด้านล่าง (เช่น เปลี่ยนเป็น fetch('URL ปลายทาง', {...}))
+      -->
+      <form class="rsvp-panel" id="rsvpForm">
+        <div class="f-row">
+          <label for="rsvpName">ชื่อ-นามสกุล</label>
+          <input type="text" id="rsvpName" name="name" required placeholder="ชื่อของคุณ">
+        </div>
+        <div class="f-row">
+          <label for="rsvpCount">จำนวนแขกที่มาร่วมงาน (รวมตัวท่านเอง)</label>
+          <input type="number" id="rsvpCount" name="guests" min="1" value="1" required>
+        </div>
+        <div class="f-row">
+          <label>การเข้าร่วมงาน</label>
+          <div class="radio-group">
+            <label><input type="radio" name="attending" value="yes" checked> ยินดีเข้าร่วม</label>
+            <label><input type="radio" name="attending" value="no"> ไม่สะดวกเข้าร่วม</label>
+          </div>
+        </div>
+        <div class="f-row">
+          <label for="rsvpMsg">ข้อความถึงคู่บ่าวสาว / ข้อจำกัดด้านอาหาร</label>
+          <textarea id="rsvpMsg" name="message" placeholder="เช่น แพ้อาหารทะเล / มังสวิรัติ / คำอวยพร"></textarea>
+        </div>
+        <button type="submit" class="btn">ส่งคำตอบรับ</button>
+        <p class="rsvp-note" id="rsvpNote">ขอบคุณที่ยืนยันมานะคะ/ครับ พบกันวันที่ 28 พฤศจิกายน 2026</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="f-names">Kittipong &amp; Phimphitcha</div>
+    <div class="f-date">28 . 11 . 2026 &nbsp;—&nbsp; Chanchiva</div>
+    <div class="f-note">A little moment, a lifetime together</div>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
