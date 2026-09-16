@@ -426,7 +426,7 @@ a{ color:inherit; }
   --scene-image:url('assets/hero-reference-mobile.png');
   background:none;
 }
-.hero-reference-scene > :not(.hero-corner-note):not(.hero-edge-sprig):not(.hero-edge-petal){ display:none; }
+.hero-reference-scene > :not(.hero-corner-note):not(.hero-side-note):not(.hero-edge-sprig):not(.hero-edge-petal){ display:none; }
 .hero-edge-sprig{
   position:absolute; z-index:2; left:-8px; bottom:-40px;
   width:clamp(150px, 39vw, 270px); height:180px;
@@ -824,16 +824,16 @@ a{ color:inherit; }
 
 /* ---- Footer ---- */
 footer{
-  padding:70px 24px 50px;
+  padding:40px 24px 30px;
   text-align:center;
   background:var(--brown-deep);
   color:var(--paper);
 }
 footer .f-names{
-  font-family:var(--script); font-size:42px;
+  font-family:'Cherolina', var(--script); font-size:42px;
 }
-footer .f-date{ margin-top:10px; font-size:14px; letter-spacing:.1em; opacity:.8; }
-footer .f-note{ margin-top:26px; font-size:12px; opacity:.55; }
+footer .f-date{ margin-top:8px; font-size:14px; letter-spacing:.1em; opacity:.8; }
+footer .f-note{ margin-top:16px; font-size:12px; opacity:.55; }
 
 /* ---- Scroll reveal ---- */
 .motion-ready .reveal{
@@ -1007,4 +1007,360 @@ footer .f-note{ margin-top:26px; font-size:12px; opacity:.55; }
 @media(min-width:768px){
   .venue-art{ width:49%; max-width:441px; }
   .dress-illustration{ width:49%; max-width:402px; }
+}
+
+/* Restrained editorial styling: only HERO decoration and typography. */
+.hero{ background:#f8f5ee; }
+.hero-botanical.hero-reference-scene::before{ display:none; }
+.hero-reference-scene .hero-edge-sprig,
+.hero-reference-scene .hero-edge-petal{ display:none; }
+.hero-reference-scene > .floral-cut.floral-left:not(.floral-veil):not(.floral-distant),
+.hero-reference-scene > .floral-cut.floral-bottom:not(.floral-veil):not(.floral-distant){
+  display:block; opacity:.58; filter:saturate(.6);
+}
+.hero-reference-scene > .floral-cut.floral-left:not(.floral-veil):not(.floral-distant){
+  width:clamp(110px, 24vw, 275px); height:34%; left:-4%; bottom:-12px;
+}
+.hero-reference-scene > .floral-cut.floral-bottom:not(.floral-veil):not(.floral-distant){
+  width:clamp(110px, 24vw, 260px); height:33%; right:-4%; top:-3%;
+}
+.hero .hero-corner-note{
+  left:7%; top:7%; font-size:clamp(8px, 1vw, 12px); line-height:1.9;
+  letter-spacing:.22em; color:#89765b;
+}
+.hero .hero-corner-note::after{ display:none; }
+.hero .kicker{ font-size:clamp(16px, 2vw, 21px); color:#657158; letter-spacing:.025em; }
+.hero h1{
+  font-size:clamp(50px, 6vw, 74px); line-height:.94;
+  color:#654e35; margin:16px 0 18px; font-weight:400;
+}
+.hero h1 .hero-name{ display:block; }
+.hero h1 .amp{
+  display:block; margin:6px 0 7px; padding:0; font:italic 15px/1 'Cormorant Garamond', serif;
+  color:#887657;
+}
+.hero .venue{
+  font:500 clamp(11px, 1.3vw, 14px)/1.5 'Cormorant Garamond', serif;
+  text-transform:uppercase; letter-spacing:.28em; margin-top:0; color:#806a4d;
+}
+.hero .date-row{
+  margin-top:13px; font:500 clamp(14px, 1.7vw, 18px)/1.4 'Cormorant Garamond', serif;
+  letter-spacing:.09em; gap:10px; color:#654e35;
+}
+.hero .date-row .dot{ width:3px; height:3px; opacity:.65; }
+.hero .tagline{ margin-top:12px; font-size:clamp(11px, 1.3vw, 14px); color:#8b775c; }
+.hero .hero-actions{
+  width:min(100%, 440px); margin:22px auto 0; padding:0;
+  background:none; box-shadow:none; border:0;
+}
+.hero .hero-btn{
+  padding:8px 5px; color:#806d52; background:none; box-shadow:none;
+  border-color:rgba(128,109,82,.15); gap:7px;
+}
+.hero .hero-btn svg{ width:16px; height:16px; stroke-width:1.3; }
+.hero .hero-btn span{ font-size:10px; letter-spacing:0; }
+@media(max-width:480px){
+  .hero h1{ font-size:clamp(44px, 12vw, 58px); margin:13px 0 15px; }
+  .hero .hero-actions{ margin-top:18px; }
+  .hero .hero-btn span{ font-size:9px; }
+}
+@media(max-height:700px){
+  .hero h1{ font-size:44px; margin:10px 0 12px; }
+  .hero .hero-actions{ margin-top:12px; }
+  .hero .tagline{ margin-top:8px; }
+}
+
+/* Match the supplied editorial reference; portrait and its animation are untouched. */
+.hero-botanical.hero-reference-scene::before{
+  display:block; inset:0;
+  background:url('assets/hero-editorial-reference.png') center/100% 100% no-repeat;
+  -webkit-mask-image:none; mask-image:none; opacity:1;
+}
+.hero-reference-scene > .floral-cut.floral-left:not(.floral-veil):not(.floral-distant),
+.hero-reference-scene > .floral-cut.floral-bottom:not(.floral-veil):not(.floral-distant){ display:none; }
+.hero .hero-corner-note{ left:8.6%; top:8.4%; font-size:clamp(8px, 1.05vw, 14px); color:#756547; }
+.hero .hero-corner-note::after,
+.hero .hero-side-note::after{ display:block; content:''; width:1px; height:30px; background:#a9997a; margin-top:15px; }
+.hero-reference-scene > .hero-side-note{
+  display:block; position:absolute; right:7%; top:23%; text-align:center;
+  font:500 clamp(6px, .8vw, 10px)/2 'Cormorant Garamond', serif;
+  letter-spacing:.18em; text-transform:uppercase; color:#756547;
+}
+.hero .hero-side-note::after{ margin-left:auto; margin-right:auto; height:20px; }
+.hero .kicker{ color:#70613e; font-size:clamp(15px, 1.8vw, 22px); letter-spacing:.1em; }
+.hero h1{ font-size:clamp(62px, 8vw, 100px); line-height:.82; margin:15px 0 12px; color:#6c5832; }
+.hero h1 .amp{ font-size:25px; color:#788065; margin:8px 0 10px; }
+.hero .venue::before{ content:''; display:block; width:23px; height:1px; margin:0 auto 15px; background:#b2a385; }
+.hero .venue{ font-size:clamp(13px, 1.6vw, 18px); letter-spacing:.3em; color:#705d3d; }
+.hero .date-row{ text-transform:uppercase; font-size:clamp(13px, 1.55vw, 18px); margin-top:17px; letter-spacing:.15em; }
+.hero .tagline::before{ content:''; display:block; width:23px; height:1px; margin:0 auto 15px; background:#b2a385; }
+.hero .tagline{ line-height:1.5; letter-spacing:.15em; margin-top:17px; font-size:clamp(12px, 1.4vw, 16px); }
+.hero .hero-actions{ width:min(100%, 540px); margin-top:30px; }
+.hero .hero-btn svg{ width:19px; height:19px; }
+.hero .hero-btn small{ font:500 8px/1.3 'Cormorant Garamond', serif; letter-spacing:.17em; text-transform:uppercase; }
+.hero .hero-btn span{ font-size:11px; }
+@media(max-width:480px){
+  .hero h1{ font-size:clamp(58px, 17vw, 78px); }
+  .hero h1 .amp{ font-size:21px; margin:7px 0; }
+  .hero .hero-actions{ margin-top:24px; }
+  .hero .hero-btn span{ font-size:9px; }
+  .hero .hero-btn small{ font-size:7px; }
+}
+@media(max-height:740px){
+  .hero h1{ font-size:54px; margin:10px 0; }
+  .hero .venue::before,.hero .tagline::before{ margin-bottom:9px; }
+  .hero .date-row,.hero .tagline{ margin-top:10px; }
+  .hero .hero-actions{ margin-top:14px; }
+}
+@media(min-width:768px) and (max-height:1000px){
+  .hero h1{ font-size:76px; margin:12px 0 10px; }
+  .hero .hero-actions{ margin-top:18px; }
+  .hero .tagline{ margin-top:12px; }
+  .hero .venue::before,.hero .tagline::before{ margin-bottom:10px; }
+}
+
+/* Small schedule ornaments, preserving the existing timeline layout. */
+#schedule::before{ display:none; }
+.schedule-heading-ornament,.schedule-footer-ornament{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  color:#b9a77d; pointer-events:none;
+}
+.schedule-heading-ornament{ margin:0 auto 22px; }
+.schedule-heading-ornament::before,.schedule-heading-ornament::after{
+  content:''; width:clamp(48px, 14vw, 88px); height:1px; background:rgba(185,167,125,.32);
+}
+.schedule-heading-ornament span{ font-size:15px; line-height:1; opacity:.8; }
+#schedule .lede::after{
+  content:''; display:block; width:34px; height:1px;
+  background:rgba(185,167,125,.55); margin:20px auto -20px;
+}
+#schedule .sch-row::before{
+  content:''; position:absolute; left:calc(24% + clamp(12px,3vw,28px) + 46px);
+  top:0; width:3px; height:3px; border-radius:50%; background:#b6a27a;
+  transform:translateX(-1px); pointer-events:none;
+}
+.schedule-corner{
+  position:absolute; z-index:0; left:-48px; bottom:-24px;
+  width:clamp(145px, 22vw, 245px); height:clamp(180px, 28vw, 300px);
+  background:url('assets/hero-flowers-bottom-left.png') left bottom/contain no-repeat;
+  opacity:.48; filter:saturate(.55); pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg, #000 25%, transparent 100%);
+  mask-image:linear-gradient(90deg, #000 25%, transparent 100%);
+}
+.schedule-footer-ornament{ position:relative; margin:26px auto 0; gap:12px; color:#87916c; }
+.schedule-footer-ornament svg{ width:38px; height:25px; }
+.schedule-footer-ornament span{ width:46px; height:1px; background:rgba(185,167,125,.25); }
+@media(max-width:480px){
+  #schedule .sch-row::before{ left:calc(18% + 10px + 32px); }
+  .schedule-corner{ left:-52px; width:150px; height:205px; opacity:.42; }
+}
+
+/* Both portraits share one moving frame, so the crossfade cannot shift position. */
+.hero-couple{ mix-blend-mode:multiply; }
+.hero-couple .couple-story,.hero-couple .couple-final{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+  mix-blend-mode:normal; transition:opacity 1.8s cubic-bezier(.4,0,.2,1);
+}
+.hero-couple .couple-story{ opacity:1; }
+.hero-couple .couple-final{ opacity:0; pointer-events:none; }
+.hero.is-portrait-colored .couple-story{ opacity:0; }
+.hero.is-portrait-colored .couple-final{ opacity:1; }
+
+/* Countdown: content-sized editorial layout; timer logic and values are unchanged. */
+#countdown{ padding:54px 0 50px; background:#f8f5ee; color:#35483d; }
+#countdown .container{ max-width:820px; }
+#countdown .eyebrow{ font-size:clamp(43px, 6vw, 64px); font-weight:500; line-height:1.15; letter-spacing:0; }
+#countdown .countdown-date{ margin-top:13px; font-size:clamp(10px, 1.4vw, 13px); letter-spacing:.25em; color:#637062; }
+#countdown .countdown-wrap{ max-width:620px; margin-top:30px; gap:0; }
+#countdown .cd-num{ font-size:clamp(42px, 7vw, 66px); font-weight:400; font-variant-numeric:tabular-nums; line-height:1; }
+#countdown .cd-label{ margin-top:12px; font-size:clamp(9px, 1.2vw, 12px); font-weight:500; letter-spacing:.18em; color:#737967; }
+#countdown .cd-box + .cd-box::before{ top:3px; height:clamp(36px, 5vw, 54px); background:rgba(169,148,116,.3); }
+.countdown-ornament{ display:flex; align-items:center; justify-content:center; gap:15px; pointer-events:none; }
+.countdown-ornament span{ width:44px; height:1px; background:rgba(169,148,116,.36); }
+.countdown-hourglass{ color:#a18b63; margin-bottom:19px; }
+.countdown-hourglass svg{ width:18px; height:26px; }
+.countdown-leaf{ color:#87916b; margin-top:28px; }
+.countdown-leaf svg{ width:37px; height:24px; }
+.countdown-quote{ margin:17px auto 0; color:#897358; font:italic 400 clamp(15px, 1.9vw, 19px)/1.55 'Cormorant Garamond', serif; letter-spacing:.04em; }
+@media(max-width:480px){
+  #countdown{ padding:44px 0 40px; }
+  #countdown .container{ padding-left:20px; padding-right:20px; }
+  #countdown .countdown-wrap{ margin-top:26px; }
+  .countdown-leaf{ margin-top:24px; }
+}
+
+/* Reveal the original botanical artwork outward from its two corner roots. */
+@property --botanical-growth {
+  syntax:'<percentage>';
+  inherits:false;
+  initial-value:0%;
+}
+.hero-botanical.hero-reference-scene::before{
+  --botanical-growth:0%;
+  -webkit-mask-image:radial-gradient(ellipse at 100% 0%, #000 0%, #000 max(0%, calc(var(--botanical-growth) - 9%)), transparent var(--botanical-growth)), radial-gradient(ellipse at 0% 100%, #000 0%, #000 max(0%, calc(var(--botanical-growth) - 9%)), transparent var(--botanical-growth));
+  mask-image:radial-gradient(ellipse at 100% 0%, #000 0%, #000 max(0%, calc(var(--botanical-growth) - 9%)), transparent var(--botanical-growth)), radial-gradient(ellipse at 0% 100%, #000 0%, #000 max(0%, calc(var(--botanical-growth) - 9%)), transparent var(--botanical-growth));
+}
+.hero.is-framed .hero-botanical.hero-reference-scene::before{
+  animation:botanical-grow 4.2s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+@keyframes botanical-grow{ from{ --botanical-growth:0%; } to{ --botanical-growth:110%; } }
+@media(prefers-reduced-motion:reduce){
+  .hero-botanical.hero-reference-scene::before{ -webkit-mask-image:none; mask-image:none; }
+}
+
+/* Keep the three hero links inside the clear area between the florals. */
+.hero .hero-actions{ width:min(76%, 440px); margin-left:auto; margin-right:auto; }
+.hero .hero-btn{ min-width:0; flex:1 1 0; padding-left:3px; padding-right:3px; }
+@media(max-width:480px){
+  .hero .hero-actions{ width:76%; }
+  .hero .hero-btn span{ font-size:8px; line-height:1.6; }
+  .hero .hero-btn small{ font-size:6px; letter-spacing:.12em; }
+}
+
+/* Dress code — restrained wedding editorial, using the existing palette and artwork. */
+#dresscode{ background:#f8f5ee; padding:54px 0 48px; border-top-color:rgba(122,97,66,.1); }
+#dresscode .container{ max-width:900px; }
+.dress-heading-ornament{ display:flex; justify-content:center; align-items:center; gap:14px; color:#a79470; margin-bottom:18px; }
+.dress-heading-ornament span{ width:40px; height:1px; background:rgba(167,148,112,.3); }
+.dress-heading-ornament svg{ width:27px; height:24px; }
+#dresscode .eyebrow{ font-size:clamp(42px, 5.5vw, 60px); line-height:1.15; color:#405642; font-weight:500; }
+#dresscode .dress-divider{ display:none; }
+#dresscode .lede{ margin-top:16px; max-width:38ch; font-size:14px; line-height:1.9; color:#8b785e; }
+#dresscode .dress-row{ max-width:460px; margin-top:30px; gap:clamp(10px, 3vw, 30px); }
+#dresscode .dress-swatch .chip{
+  width:clamp(36px, 9vw, 47px); height:clamp(36px, 9vw, 47px);
+  border:0; box-shadow:none; outline:1px solid rgba(139,120,94,.25); outline-offset:4px;
+  margin-bottom:17px;
+}
+#dresscode .dress-swatch span{
+  display:block; font:500 clamp(10px, 1.4vw, 12px)/1.6 'Cormorant Garamond', serif;
+  letter-spacing:.085em; text-transform:uppercase; color:#79684e; overflow-wrap:normal;
+}
+#dresscode .dress-illustration{ margin-top:30px; margin-bottom:0; }
+#dresscode .dress-illustration::after{ content:''; display:block; width:42px; height:1px; background:rgba(167,148,112,.4); margin:18px auto 0; }
+@media(max-width:480px){
+  #dresscode{ padding:42px 0 38px; }
+  #dresscode .container{ padding-left:24px; padding-right:24px; }
+  #dresscode .lede{ font-size:13px; }
+  #dresscode .dress-row{ gap:12px; margin-top:28px; }
+  #dresscode .dress-swatch span{ font-size:10px; letter-spacing:.025em; }
+  #dresscode .dress-illustration{ margin-top:22px; }
+}
+/* Watercolor editorial palette, scoped to the dress-code section. */
+#dresscode{padding:48px 0 36px}
+#dresscode .dress-kicker{margin:0 0 14px;color:#90795e;font:500 10px/1.5 'Cormorant Garamond',serif;letter-spacing:.36em}
+#dresscode h2.eyebrow{margin:0;font-size:clamp(48px,6vw,68px);font-weight:500;letter-spacing:-.025em;color:#394c40}
+#dresscode .dress-divider{display:block;width:28px;height:1px;margin:17px auto 0;background:#c7b797}
+#dresscode .lede{margin:16px auto 0;max-width:35ch;font-size:13px}
+#dresscode .dress-row{max-width:570px;gap:14px;margin:28px auto 0}
+#dresscode .dress-swatch .chip{position:relative;width:100%;max-width:120px;height:auto;aspect-ratio:1.4;border-radius:0;outline:0;border:0;box-shadow:none;margin:0 auto 10px;opacity:.85;mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20140%20100%22%3E%3Cfilter%20id%3D%22w%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.12%20.3%22%20numOctaves%3D%223%22%20seed%3D%228%22%2F%3E%3CfeDisplacementMap%20in%3D%22SourceGraphic%22%20scale%3D%229%22%2F%3E%3C%2Ffilter%3E%3Cg%20fill%3D%22white%22%20filter%3D%22url(%23w)%22%3E%3Cpath%20d%3D%22M12%2043%20111%2013%20124%2020%20112%2029%20130%2029%20123%2042%20132%2047%20119%2059%20125%2065%20108%2077%2027%2090%2017%2082%2025%2074%208%2075%2015%2062%207%2059Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center/100% 100% no-repeat}
+#dresscode .dress-swatch .chip::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22160%22%20height%3D%22100%22%3E%3Cfilter%20id%3D%22g%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.65%22%20numOctaves%3D%223%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20opacity%3D%22.3%22%20filter%3D%22url(%23g)%22%2F%3E%3C%2Fsvg%3E");mix-blend-mode:screen;opacity:.8}
+#dresscode .dress-swatch:first-child .chip{background:#ede2ce!important}
+#dresscode .dress-swatch:nth-child(2) .chip{transform:rotate(-4deg)}
+#dresscode .dress-swatch:nth-child(3) .chip{transform:rotate(3deg);opacity:.72}
+#dresscode .dress-swatch:nth-child(4) .chip{transform:rotate(-3deg);opacity:.8}
+#dresscode .dress-swatch span{font-size:12px;letter-spacing:.09em;white-space:nowrap;font-weight:500}
+#dresscode .dress-illustration{width:100%;max-width:620px;margin:30px auto 0;background:#f8f5ee}
+#dresscode .dress-illustration img{display:block;filter:saturate(.82);mix-blend-mode:multiply}
+#dresscode .dress-illustration::after{margin-top:20px;width:30px}
+@media(max-width:480px){
+ #dresscode{padding:38px 0 30px}
+ #dresscode .container{padding-left:22px;padding-right:22px}
+ #dresscode .dress-kicker{font-size:9px;margin-bottom:12px;letter-spacing:.3em}
+ #dresscode .dress-row{gap:9px;margin-top:25px}
+ #dresscode .dress-swatch span{font-size:10px;letter-spacing:.035em}
+ #dresscode .dress-illustration{width:calc(100% + 16px);max-width:none;margin:26px -8px 0}
+}
+
+/* Gentle continuous descent, with independent soft flutter and depth. */
+.petal-flight{
+  top:-40px;
+  animation:petal-flight-fall var(--petal-duration) linear var(--petal-delay) both;
+  will-change:transform;
+}
+@keyframes petal-flight-fall{
+  0%{opacity:0;transform:translate3d(0,-20px,0)}
+  8%{opacity:var(--petal-opacity,.65)}
+  85%{opacity:var(--petal-opacity,.65)}
+  100%{opacity:0;transform:translate3d(var(--petal-drift),calc(100dvh + 100px),0)}
+}
+.petal{
+  display:block;
+  filter:drop-shadow(0 1px 2px rgba(74,58,40,.08));
+  animation:petal-sway var(--petal-flutter) ease-in-out var(--petal-phase) infinite alternate;
+  transform-origin:48% 35%;
+}
+@keyframes petal-sway{
+  0%{transform:translateX(calc(var(--petal-sway) * -1)) rotate(calc(var(--petal-turn) - 24deg)) scaleX(.7)}
+  50%{transform:translateX(0) rotate(var(--petal-turn)) scaleX(1)}
+  100%{transform:translateX(var(--petal-sway)) rotate(calc(var(--petal-turn) + 24deg)) scaleX(.55)}
+}
+@media(prefers-reduced-motion:reduce){.petal-shower{display:none}}
+
+/* Opening stationery: mobile-first proportions, original envelope interaction. */
+#opening-screen{padding:0;background:#f8f3e9;overflow:hidden}
+#opening-screen::before{opacity:.16}
+#opening-screen::after{background:#eee5d6}
+#opening-screen .opening-message{top:10%;width:min(86vw,480px);text-shadow:none;color:#846647}
+#opening-screen .opening-message>span{font-size:clamp(9px,1.5vh,13px);letter-spacing:.36em;margin-bottom:clamp(17px,3vh,28px)}
+#opening-screen .opening-message strong{font-size:clamp(54px,9.5vh,88px);line-height:.72;font-weight:400}
+#opening-screen .opening-message b{font-size:14px;line-height:1;margin:12px 0}
+#opening-screen .opening-message::after{display:none}
+.opening-rings{display:flex;align-items:center;justify-content:center;gap:14px;margin:20px auto 7px;color:#9c815b}
+.opening-rings::before,.opening-rings::after{content:'';width:42px;height:1px;background:#c5b59a}
+#opening-screen .opening-message em{margin-top:7px;font-size:clamp(9px,1.35vh,12px);line-height:2.3;letter-spacing:.23em}
+#opening-screen .envelope-stage{position:absolute;top:45%;width:min(85vw,43vh,440px);aspect-ratio:783/615}
+#opening-screen .tap-hint{position:absolute;top:79%;margin:0;font:500 clamp(9px,1.4vh,12px)/1.5 'Cormorant Garamond',serif;letter-spacing:.36em;animation:none}
+#opening-screen .tap-hint::after{width:1px;height:clamp(18px,3vh,28px);margin:14px auto 0;background:#b6a387}
+#opening-screen .opening-motto{bottom:4%;font-size:clamp(8px,1.3vh,11px);line-height:2;letter-spacing:.3em;color:#837156}
+#opening-screen .opening-florals{opacity:.7}
+#opening-screen .floral-top-right,#opening-screen .floral-bottom-left{display:none}
+#opening-screen .floral-top-left{top:-35px;left:-45px;width:clamp(150px,38vw,290px);height:clamp(210px,34vh,350px);background:url('assets/hero-flowers-bottom-left.png') left bottom/contain no-repeat;transform:rotate(180deg);mask-image:none;-webkit-mask-image:none}
+#opening-screen .floral-bottom-right{bottom:-44px;right:-48px;width:clamp(150px,40vw,310px);height:clamp(200px,33vh,350px);background:url('assets/hero-flowers-bottom-left.png') left bottom/contain no-repeat;transform:scaleX(-1);mask-image:none;-webkit-mask-image:none}
+.envelope-botanical{position:absolute;left:-3%;bottom:3%;width:28%;height:66%;z-index:5;background:url('assets/hero-flowers-bottom-left.png') left bottom/contain no-repeat;pointer-events:none;opacity:.85;transition:opacity .5s ease}
+.envelope-stage.seal-open .envelope-botanical{opacity:0}
+#opening-screen .seal{filter:saturate(.6);}
+@media(max-height:650px){
+ #opening-screen .opening-message{top:7%}
+ #opening-screen .opening-message strong{font-size:54px}
+ #opening-screen .opening-message>span{margin-bottom:17px}
+ #opening-screen .opening-message b{margin:8px 0}
+ .opening-rings{margin-top:12px}
+ #opening-screen .opening-message em{font-size:8px;line-height:2}
+ #opening-screen .envelope-stage{top:46%;width:min(76vw,40vh)}
+}
+
+/* Reference composition: explicitly center the envelope without transforming its fixed card. */
+#opening-screen .envelope-stage{--opening-envelope-width:min(88vw,52dvh,510px);width:var(--opening-envelope-width);left:calc(50% - var(--opening-envelope-width)/2);top:37.5%;margin:0}
+#opening-screen .opening-message{top:9%;width:min(82vw,480px)}
+#opening-screen .opening-message strong{font-size:clamp(54px,8.8dvh,86px)}
+#opening-screen .opening-message>span{margin-bottom:clamp(18px,2.8dvh,28px)}
+#opening-screen .opening-message b{margin:10px 0}
+#opening-screen .opening-rings{margin-top:16px}
+#opening-screen .tap-hint{top:74%}
+#opening-screen .opening-motto{bottom:9%}
+@media(max-height:650px){
+ #opening-screen .opening-message{top:7%}
+ #opening-screen .opening-message strong{font-size:48px}
+ #opening-screen .opening-message b{margin:6px 0}
+ #opening-screen .opening-rings{margin-top:10px}
+ #opening-screen .envelope-stage{top:39%}
+}
+#opening-screen{background:#f8f3e9 url('assets/opening-reference-paper.png') center/cover no-repeat}
+#opening-screen .opening-florals{display:none}
+#opening-screen::before{display:none}
+
+/* Wide screens keep both botanical corners visible instead of cropping a portrait background. */
+@media(min-aspect-ratio:1/1){
+ #opening-screen{background-size:100% 100%}
+ #opening-screen .envelope-stage{--opening-envelope-width:min(44vw,44dvh,440px);top:40%}
+ #opening-screen .tap-hint{top:77%}
+ #opening-screen .opening-motto{bottom:4%}
+}
+@media(min-aspect-ratio:1/1){
+ #opening-screen{background:#f8f3e9}
+ #opening-screen .opening-florals{display:block;opacity:1}
+ #opening-screen .floral-top-left,#opening-screen .floral-bottom-right{display:block;top:0;bottom:0;width:42%;height:100%;transform:none;background-image:url('assets/opening-reference-paper.png');background-size:auto 100%;background-repeat:no-repeat}
+ #opening-screen .floral-top-left{left:0;background-position:left top;mask-image:linear-gradient(to right,#000 65%,transparent);-webkit-mask-image:linear-gradient(to right,#000 65%,transparent)}
+ #opening-screen .floral-bottom-right{right:0;background-position:right bottom;mask-image:linear-gradient(to left,#000 65%,transparent);-webkit-mask-image:linear-gradient(to left,#000 65%,transparent)}
 }

@@ -9,6 +9,9 @@
   var slideSound = document.getElementById('slideSound');
   var hero = document.getElementById('hero');
   var coupleStory = document.getElementById('coupleStory');
+  function settlePortrait(){
+    hero.classList.add('is-story-settled');
+  }
   var heroProgress = document.getElementById('heroProgress');
   var opened = false;
 
@@ -19,11 +22,11 @@
     document.documentElement.classList.add('hero-locked');
     document.body.classList.add('hero-locked');
     var frames = [
-      'assets/hero-story-01.png', 'assets/hero-story-02.png',
-      'assets/hero-story-03.png', 'assets/hero-story-04.png',
-      'assets/hero-story-05.png', 'assets/hero-story-06.png',
-      'assets/hero-story-07.png', 'assets/hero-story-08.png',
-      'assets/hero-story-09.png', 'assets/hero-story-10.png'
+      'assets/couple-watercolor-ten/01.png', 'assets/couple-watercolor-ten/02.png',
+      'assets/couple-watercolor-ten/03.png', 'assets/couple-watercolor-ten/04.png',
+      'assets/couple-watercolor-ten/05.png', 'assets/couple-watercolor-ten/06.png',
+      'assets/couple-watercolor-ten/07.png', 'assets/couple-watercolor-ten/08.png',
+      'assets/couple-watercolor-ten/09.png', 'assets/couple-watercolor-ten/10.png'
     ];
     // โหลดเฟรมล่วงหน้า เพื่อลดอาการสะดุดขณะเปลี่ยนภาพบนเครือข่ายที่ช้า
     frames.slice(1).forEach(function(frame){
@@ -33,6 +36,7 @@
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
       coupleStory.src = frames[frames.length - 1];
       hero.classList.add('is-story-playing', 'is-story-settled', 'is-framed', 'is-copy-visible');
+      settlePortrait();
       setTimeout(function(){
         document.documentElement.classList.remove('hero-locked');
         document.body.classList.remove('hero-locked');
@@ -54,7 +58,7 @@
         coupleStory.src = frames[frameIndex];
       }, 350);
     }, 600);
-    setTimeout(function(){ hero.classList.add('is-story-settled'); }, 4100);
+    setTimeout(settlePortrait, 4100);
     setTimeout(function(){ hero.classList.add('is-framed'); }, 5600);
     setTimeout(function(){ hero.classList.add('is-copy-visible'); }, 6100);
     // ปลดการเลื่อนหลังข้อความและฉากเปิดปรากฏครบแล้ว
@@ -214,8 +218,13 @@
 
   function scatterPetals(){
     var shower = document.getElementById('petalShower');
+    if(!shower || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Let the last petals finish drifting after the envelope has disappeared.
+    document.body.appendChild(shower);
+    var random = function(min, max){ return min + Math.random() * (max - min); };
     var sprites = ['assets/ivory-petal.png'];
-    for(var i = 0; i < 22; i++){
+    var count = window.innerWidth < 600 ? 16 : 24;
+    for(var i = 0; i < count; i++){
       var flight = document.createElement('span');
       flight.className = 'petal-flight';
       var petal = document.createElement('img');
@@ -223,15 +232,19 @@
       petal.src = sprites[i % sprites.length];
       petal.alt = '';
       petal.setAttribute('aria-hidden', 'true');
-      flight.style.setProperty('--petal-left', (3 + ((i * 37) % 94)) + 'vw');
-      flight.style.setProperty('--petal-turn', ((i * 53) % 360) + 'deg');
-      flight.style.setProperty('--petal-delay', (i * 65) + 'ms');
-      flight.style.setProperty('--petal-duration', (3600 + ((i * 173) % 1300)) + 'ms');
-      flight.style.setProperty('--petal-drift', (35 + ((i * 19) % 85)) + 'px');
-      flight.style.setProperty('--petal-sway', (22 + ((i * 13) % 35)) + 'px');
-      flight.style.setProperty('--petal-flutter', (1500 + ((i * 137) % 1200)) + 'ms');
-      flight.style.setProperty('--petal-phase', (-i * 211) + 'ms');
-      flight.style.width = (18 + (i % 4) * 4) + 'px';
+      flight.style.setProperty('--petal-left', ((i + Math.random()) / count * 100) + 'vw');
+      flight.style.setProperty('--petal-turn', random(-80, 80) + 'deg');
+      flight.style.setProperty('--petal-delay', random(0, 2200) + 'ms');
+      flight.style.setProperty('--petal-duration', random(6200, 9200) + 'ms');
+      flight.style.setProperty('--petal-drift', random(-55, 55) + 'px');
+      flight.style.setProperty('--petal-sway', random(12, 30) + 'px');
+      flight.style.setProperty('--petal-flutter', random(2400, 4200) + 'ms');
+      flight.style.setProperty('--petal-phase', random(-4000, 0) + 'ms');
+      flight.style.setProperty('--petal-opacity', random(.45, .8));
+      flight.style.width = random(14, 27) + 'px';
+      flight.addEventListener('animationend', function(event){
+        if(event.animationName === 'petal-flight-fall') this.remove();
+      });
       flight.appendChild(petal);
       shower.appendChild(flight);
     }
