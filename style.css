@@ -319,7 +319,9 @@ a{ color:inherit; }
 }
 /* 0.3–1.0s ซองปิดจางหาย + ฝาหมุนเปิด */
 .envelope-stage.flap-open .env-closed{ opacity:0; }
-.envelope-stage.flap-open .env-flap{ transform:perspective(1400px) rotateX(-178deg); }
+.envelope-stage.flap-open .env-flap {
+  transform:translate(2px, 4.3px) perspective(1400px) rotateX(-178deg);
+}
 /* หลังฝาหมุนเปิดเสร็จ ย้ายไปไว้หลังสุด เพื่อไม่ให้ทับการ์ดที่กำลังเลื่อนออก */
 .envelope-stage.flap-sent-back .env-flap{ z-index:0; }
 
