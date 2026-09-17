@@ -695,6 +695,7 @@ a{ color:inherit; }
   transition:transform .35s ease, border-color .35s ease;
 }
 .g-cell:hover{ transform:rotate(-1.5deg) translateY(-4px); border-color:var(--sage-deep); }
+.g-cell.g-photo{ object-fit:cover; width:100%; height:100%; padding:0; border-style:solid; }
 
 /* ใช้ช่องดอกไม้จากภาพอ้างอิงเฉพาะสองตำแหน่ง เพื่อให้หน้าเนื้อหามีจังหวะแต่ไม่แน่นเกินไป */
 #story::after, #rsvp::after{

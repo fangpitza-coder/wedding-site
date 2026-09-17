@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>แก้ไขเว็บแต่งงาน — หลังบ้าน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#faf5ec; --paper:#f3ece0; --paper-deep:#e9dfcd; --champagne:#d9c39c;
+    --brown:#7a6142; --brown-deep:#5a462f; --sage:#8da07e; --sage-deep:#6c7f5e;
+    --ink:#3a3227; --line:rgba(122,97,66,.28); --danger:#a24a3f;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; font-family:'Noto Serif Thai', serif; background:var(--paper); color:var(--ink);
+    min-height:100vh; padding:24px 16px 80px;
+  }
+  h1,h2{ font-family:'Playfair Display','Noto Serif Thai',serif; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  .brand{ text-align:center; margin-bottom:28px; }
+  .brand h1{ font-size:22px; color:var(--brown-deep); margin:0 0 4px; }
+  .brand p{ font-size:13px; color:var(--brown); margin:0; }
+
+  .card{ background:var(--ivory); border:1px solid var(--line); border-radius:14px; padding:24px 22px; margin-bottom:20px; box-shadow:0 8px 24px rgba(58,48,37,.06); }
+  .card h2{ font-size:17px; color:var(--brown-deep); margin:0 0 16px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+
+  label{ display:block; font-size:13px; color:var(--brown-deep); font-weight:600; margin-bottom:5px; }
+  input[type=text], input[type=date], input[type=time], input[type=url], input[type=password], textarea{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px;
+    font-family:inherit; font-size:14px; background:#fff; color:var(--ink); margin-bottom:14px;
+  }
+  textarea{ min-height:64px; resize:vertical; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:520px){ .row2{ grid-template-columns:1fr; } }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    padding:11px 20px; border-radius:30px; border:1px solid var(--brown-deep); background:var(--ivory);
+    color:var(--brown-deep); font-family:inherit; font-size:14px; cursor:pointer; transition:.2s;
+  }
+  .btn:hover{ background:var(--paper); }
+  .btn.solid{ background:var(--sage-deep); border-color:var(--sage-deep); color:#fff; }
+  .btn.solid:hover{ background:var(--brown-deep); border-color:var(--brown-deep); }
+  .btn.danger{ border-color:var(--danger); color:var(--danger); background:#fff; }
+  .btn.danger:hover{ background:#fbeceb; }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; }
+  .btn.small{ padding:7px 14px; font-size:12.5px; }
+
+  .sch-row{ border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:12px; background:#fffdf9; }
+  .sch-row .row2{ margin-bottom:0; }
+  .sch-row-top{ display:flex; justify-content:flex-end; margin-bottom:6px; }
+
+  .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  @media(max-width:560px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
+  .gcell{ text-align:center; }
+  .gcell .thumb{
+    aspect-ratio:3/4; border:1px dashed var(--champagne); border-radius:8px; overflow:hidden;
+    display:flex; align-items:center; justify-content:center; background:var(--paper); margin-bottom:6px;
+    font-size:11px; color:var(--brown);
+  }
+  .gcell .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .gcell input[type=file]{ font-size:11px; width:100%; }
+
+  .img-field{ display:flex; gap:14px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+  .img-field .thumb{ width:88px; height:66px; border:1px dashed var(--champagne); border-radius:8px; overflow:hidden; flex:0 0 auto; background:var(--paper); display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--brown); }
+  .img-field .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .img-field .field-body{ flex:1; min-width:180px; }
+
+  .status{ position:fixed; left:16px; right:16px; bottom:16px; max-width:760px; margin:0 auto; padding:13px 18px; border-radius:10px; font-size:14px; text-align:center; display:none; z-index:50; }
+  .status.show{ display:block; }
+  .status.info{ background:#eef1e7; color:var(--brown-deep); border:1px solid var(--line); }
+  .status.ok{ background:#e7efe2; color:#3d5a34; border:1px solid #b7cead; }
+  .status.err{ background:#fbeceb; color:var(--danger); border:1px solid #e3b6b0; }
+
+  #gate{ max-width:420px; margin:80px auto 0; text-align:center; }
+  #gate .card{ text-align:left; }
+  #gate p.hint{ font-size:12.5px; color:var(--brown); line-height:1.6; }
+  #gate a{ color:var(--sage-deep); }
+
+  .actions-bar{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top:6px; }
+  .logout-link{ text-align:center; margin-top:18px; }
+  .logout-link a{ font-size:12.5px; color:var(--brown); cursor:pointer; text-decoration:underline; }
+  .field-hint{ font-size:11.5px; color:var(--brown); margin:-9px 0 12px; }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="brand">
+    <h1>หลังบ้านเว็บแต่งงาน</h1>
+    <p>Kittipong &amp; Phimphitcha</p>
+  </div>
+  <div class="card">
+    <h2>เข้าสู่ระบบ</h2>
+    <label for="tokenInput">GitHub Personal Access Token</label>
+    <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <p class="field-hint" id="gateMsg"></p>
+    <button class="btn solid" id="loginBtn" style="width:100%">เข้าสู่ระบบ</button>
+    <p class="hint">
+      ใช้ครั้งแรกครั้งเดียว ระบบจะจำไว้ในเบราว์เซอร์นี้ให้อัตโนมัติ<br>
+      ถ้ายังไม่มี token ให้สร้างที่ github.com &gt; Settings &gt; Developer settings &gt;
+      Fine-grained tokens โดยเลือกสิทธิ์เข้าถึงเฉพาะ repository <b>wedding-site</b>
+      และให้สิทธิ์ <b>Contents: Read and write</b>
+    </p>
+  </div>
+</div>
+
+<div id="main" class="wrap" style="display:none">
+  <div class="brand">
+    <h1>แก้ไขเนื้อหาเว็บแต่งงาน</h1>
+    <p>แก้แล้วกด "บันทึกการเปลี่ยนแปลง" ด้านล่างสุด เว็บจะอัปเดตภายในไม่กี่นาที</p>
+  </div>
+
+  <div class="card">
+    <h2>ข้อมูลหลัก</h2>
+    <div class="row2">
+      <div><label for="nameA">ชื่อเจ้าบ่าว</label><input type="text" id="nameA"></div>
+      <div><label for="nameB">ชื่อเจ้าสาว</label><input type="text" id="nameB"></div>
+    </div>
+    <div class="row2">
+      <div><label for="eventDate">วันจัดงาน</label><input type="date" id="eventDate"></div>
+      <div><label for="eventTime">เวลาเริ่มงาน (สำหรับนับถอยหลัง)</label><input type="time" id="eventTime"></div>
+    </div>
+    <label for="venueName">ชื่อสถานที่จัดงาน</label>
+    <input type="text" id="venueName">
+    <label for="venueAddress">ที่อยู่สถานที่</label>
+    <input type="text" id="venueAddress">
+    <label for="mapUrl">ลิงก์ Google Maps</label>
+    <input type="url" id="mapUrl">
+  </div>
+
+  <div class="card">
+    <h2>ข้อความในเว็บ</h2>
+    <label for="tagline">ข้อความใต้ชื่อคู่บ่าวสาว (ขึ้นบรรทัดใหม่ได้)</label>
+    <textarea id="tagline"></textarea>
+    <label for="scheduleLede">ข้อความหัวข้อ "กำหนดการ"</label>
+    <textarea id="scheduleLede"></textarea>
+    <label for="dresscodeLede">ข้อความหัวข้อ "Dress Code"</label>
+    <textarea id="dresscodeLede"></textarea>
+    <label for="giftLede">ข้อความหัวข้อ "With Love"</label>
+    <textarea id="giftLede"></textarea>
+    <label for="rsvpLede">ข้อความหัวข้อ "ตอบรับคำเชิญ"</label>
+    <textarea id="rsvpLede"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>กำหนดการงานแต่ง</h2>
+    <div id="scheduleRows"></div>
+    <button type="button" class="btn small" id="addScheduleRow">+ เพิ่มรายการ</button>
+  </div>
+
+  <div class="card">
+    <h2>รูปภาพหลัก</h2>
+    <div class="img-field">
+      <div class="thumb" id="thumb-heroCouple">ไม่มีรูป</div>
+      <div class="field-body">
+        <label>รูปคู่บ่าวสาว (หน้าแรก)</label>
+        <input type="file" accept="image/*" data-field="heroCouple">
+      </div>
+    </div>
+    <div class="img-field">
+      <div class="thumb" id="thumb-venue">ไม่มีรูป</div>
+      <div class="field-body">
+        <label>รูปสถานที่จัดงาน</label>
+        <input type="file" accept="image/*" data-field="venue">
+      </div>
+    </div>
+    <div class="img-field">
+      <div class="thumb" id="thumb-paymentQr">ไม่มีรูป</div>
+      <div class="field-body">
+        <label>รูป QR PromptPay</label>
+        <input type="file" accept="image/*" data-field="paymentQr">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>รูปภาพแกลเลอรี (8 ช่อง)</h2>
+    <div class="gallery-grid" id="galleryFields"></div>
+  </div>
+
+  <div class="card">
+    <div class="actions-bar">
+      <button class="btn" id="reloadBtn" type="button">โหลดค่าปัจจุบันใหม่</button>
+      <button class="btn solid" id="saveBtn" type="button">บันทึกการเปลี่ยนแปลง</button>
+    </div>
+  </div>
+
+  <div class="logout-link"><a id="logoutLink">ออกจากระบบ / ลบ token ออกจากเบราว์เซอร์นี้</a></div>
+</div>
+
+<div class="status" id="statusBox"></div>
+
+<script>
+(function(){
+  var OWNER = 'fangpitza-coder';
+  var REPO = 'wedding-site';
+  var CONTENT_PATH = 'content.json';
+  var TOKEN_KEY = 'wedding_admin_token';
+  var branch = 'main';
+  var currentSha = null;
+  var pendingUploads = {}; // field -> {file, dataBase64, path}
+  var pendingGallery = {}; // index -> {file, dataBase64, path}
+
+  var gate = document.getElementById('gate');
+  var main = document.getElementById('main');
+  var statusBox = document.getElementById('statusBox');
+
+  function showStatus(msg, type, sticky){
+    statusBox.textContent = msg;
+    statusBox.className = 'status show ' + (type || 'info');
+    if(!sticky){
+      clearTimeout(showStatus._t);
+      showStatus._t = setTimeout(function(){ statusBox.classList.remove('show'); }, 5000);
+    }
+  }
+
+  function ghHeaders(token){
+    return {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    };
+  }
+
+  function getToken(){ return localStorage.getItem(TOKEN_KEY) || ''; }
+
+  function utf8ToBase64(str){
+    var bytes = new TextEncoder().encode(str);
+    var binary = '';
+    for(var i=0;i<bytes.length;i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+  }
+  function base64ToUtf8(b64){
+    var binary = atob(b64.replace(/\n/g, ''));
+    var bytes = new Uint8Array(binary.length);
+    for(var i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        resolve(result.split(',')[1] || '');
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function ghGetRepo(token){
+    var res = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO, { headers: ghHeaders(token) });
+    if(!res.ok) throw new Error('เข้าถึง repository ไม่ได้ (เช็ค token และสิทธิ์อีกครั้ง)');
+    return res.json();
+  }
+
+  async function ghGetFile(token, path){
+    var res = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + branch, { headers: ghHeaders(token) });
+    if(res.status === 404) return null;
+    if(!res.ok) throw new Error('โหลดไฟล์ ' + path + ' ไม่สำเร็จ');
+    return res.json();
+  }
+
+  async function ghPutFile(token, path, base64Content, message, sha){
+    var body = { message: message, content: base64Content, branch: branch };
+    if(sha) body.sha = sha;
+    var res = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + encodeURIComponent(path), {
+      method: 'PUT',
+      headers: Object.assign({ 'Content-Type': 'application/json' }, ghHeaders(token)),
+      body: JSON.stringify(body)
+    });
+    if(!res.ok){
+      var err = await res.json().catch(function(){ return {}; });
+      throw new Error('บันทึก ' + path + ' ไม่สำเร็จ: ' + (err.message || res.status));
+    }
+    return res.json();
+  }
+
+  function extFromFile(file){
+    var name = file.name || '';
+    var m = name.match(/\.[a-zA-Z0-9]+$/);
+    if(m) return m[0].toLowerCase();
+    if(file.type === 'image/png') return '.png';
+    if(file.type === 'image/webp') return '.webp';
+    return '.jpg';
+  }
+
+  // ---------------- Login ----------------
+  document.getElementById('loginBtn').addEventListener('click', async function(){
+    var token = document.getElementById('tokenInput').value.trim();
+    var msgEl = document.getElementById('gateMsg');
+    if(!token){ msgEl.textContent = 'กรุณาใส่ token ก่อนค่ะ'; return; }
+    msgEl.textContent = 'กำลังตรวจสอบ...';
+    try{
+      var repoInfo = await ghGetRepo(token);
+      branch = repoInfo.default_branch || 'main';
+      localStorage.setItem(TOKEN_KEY, token);
+      enterMain();
+    }catch(err){
+      msgEl.textContent = 'เข้าไม่ได้: ' + err.message;
+    }
+  });
+
+  document.getElementById('logoutLink').addEventListener('click', function(){
+    localStorage.removeItem(TOKEN_KEY);
+    location.reload();
+  });
+
+  // ---------------- Schedule rows ----------------
+  function renderScheduleRow(item){
+    var row = document.createElement('div');
+    row.className = 'sch-row';
+    row.innerHTML =
+      '<div class="sch-row-top"><button type="button" class="btn small danger sch-remove">ลบ</button></div>' +
+      '<div class="row2">' +
+        '<div><label>เวลา (เช่น 16.29)</label><input type="text" class="sch-time" placeholder="16.29"></div>' +
+        '<div><label>หัวข้อ (ภาษาอังกฤษ)</label><input type="text" class="sch-title" placeholder="RING CEREMONY"></div>' +
+      '</div>' +
+      '<label>รายละเอียด</label><input type="text" class="sch-desc" placeholder="รายละเอียดสั้น ๆ">';
+    row.querySelector('.sch-time').value = item.time || '';
+    row.querySelector('.sch-title').value = item.title || '';
+    row.querySelector('.sch-desc').value = item.desc || '';
+    row.querySelector('.sch-remove').addEventListener('click', function(){ row.remove(); });
+    document.getElementById('scheduleRows').appendChild(row);
+  }
+
+  document.getElementById('addScheduleRow').addEventListener('click', function(){
+    renderScheduleRow({ time:'', title:'', desc:'' });
+  });
+
+  function collectSchedule(){
+    var rows = document.querySelectorAll('#scheduleRows .sch-row');
+    var out = [];
+    rows.forEach(function(row){
+      var time = row.querySelector('.sch-time').value.trim();
+      var title = row.querySelector('.sch-title').value.trim();
+      var desc = row.querySelector('.sch-desc').value.trim();
+      if(time || title || desc) out.push({ time: time, title: title, desc: desc });
+    });
+    return out;
+  }
+
+  // ---------------- Single image fields ----------------
+  ['heroCouple','venue','paymentQr'].forEach(function(field){
+    var input = document.querySelector('input[data-field="' + field + '"]');
+    input.addEventListener('change', async function(){
+      var file = input.files && input.files[0];
+      if(!file) return;
+      var base64 = await readFileAsBase64(file);
+      var path = 'assets/uploads/' + field + '-' + Date.now() + extFromFile(file);
+      pendingUploads[field] = { file: file, dataBase64: base64, path: path };
+      var thumb = document.getElementById('thumb-' + field);
+      thumb.innerHTML = '<img src="data:' + (file.type || 'image/jpeg') + ';base64,' + base64 + '">';
+    });
+  });
+
+  // ---------------- Gallery fields ----------------
+  function renderGalleryFields(urls){
+    var wrap = document.getElementById('galleryFields');
+    wrap.innerHTML = '';
+    for(var i=0;i<8;i++){
+      (function(i){
+        var cell = document.createElement('div');
+        cell.className = 'gcell';
+        var hasImg = urls[i];
+        cell.innerHTML =
+          '<div class="thumb" id="gthumb-' + i + '">' + (hasImg ? '<img src="' + urls[i] + '">' : 'ภาพที่ ' + (i+1)) + '</div>' +
+          '<input type="file" accept="image/*" data-gallery-index="' + i + '">';
+        wrap.appendChild(cell);
+        cell.querySelector('input').addEventListener('change', async function(e){
+          var file = e.target.files && e.target.files[0];
+          if(!file) return;
+          var base64 = await readFileAsBase64(file);
+          var path = 'assets/uploads/gallery-' + i + '-' + Date.now() + extFromFile(file);
+          pendingGallery[i] = { file: file, dataBase64: base64, path: path };
+          document.getElementById('gthumb-' + i).innerHTML = '<img src="data:' + (file.type || 'image/jpeg') + ';base64,' + base64 + '">';
+        });
+      })(i);
+    }
+  }
+
+  // ---------------- Load current content ----------------
+  var loadedImages = {};
+  async function loadCurrentContent(){
+    showStatus('กำลังโหลดข้อมูลปัจจุบัน...', 'info', true);
+    var token = getToken();
+    var data;
+    currentSha = null;
+    try{
+      var file = await ghGetFile(token, CONTENT_PATH);
+      if(file){
+        currentSha = file.sha;
+        data = JSON.parse(base64ToUtf8(file.content));
+      }
+    }catch(err){
+      showStatus('โหลดข้อมูลไม่สำเร็จ: ' + err.message, 'err', true);
+      return;
+    }
+    if(!data){
+      // ยังไม่เคยมี content.json ในเว็บ ใช้ค่าเริ่มต้น
+      data = {
+        couple:{ nameA:'', nameB:'' },
+        event:{ dateISO:'', startTime:'09:00', venueName:'', venueAddress:'', mapUrl:'' },
+        messages:{ tagline:'', scheduleLede:'', dresscodeLede:'', giftLede:'', rsvpLede:'' },
+        schedule:[],
+        images:{ heroCouple:'', venue:'', paymentQr:'', gallery:['','','','','','','',''] }
+      };
+    }
+    var c = data.couple || {}; var e = data.event || {}; var m = data.messages || {}; var img = data.images || {};
+    document.getElementById('nameA').value = c.nameA || '';
+    document.getElementById('nameB').value = c.nameB || '';
+    document.getElementById('eventDate').value = e.dateISO || '';
+    document.getElementById('eventTime').value = e.startTime || '09:00';
+    document.getElementById('venueName').value = e.venueName || '';
+    document.getElementById('venueAddress').value = e.venueAddress || '';
+    document.getElementById('mapUrl').value = e.mapUrl || '';
+    document.getElementById('tagline').value = m.tagline || '';
+    document.getElementById('scheduleLede').value = m.scheduleLede || '';
+    document.getElementById('dresscodeLede').value = m.dresscodeLede || '';
+    document.getElementById('giftLede').value = m.giftLede || '';
+    document.getElementById('rsvpLede').value = m.rsvpLede || '';
+
+    document.getElementById('scheduleRows').innerHTML = '';
+    (data.schedule || []).forEach(renderScheduleRow);
+    if(!data.schedule || !data.schedule.length) renderScheduleRow({time:'',title:'',desc:''});
+
+    loadedImages = img;
+    pendingUploads = {}; pendingGallery = {};
+    ['heroCouple','venue','paymentQr'].forEach(function(field){
+      var thumb = document.getElementById('thumb-' + field);
+      thumb.innerHTML = img[field] ? '<img src="' + img[field] + '?v=' + Date.now() + '">' : 'ไม่มีรูป';
+    });
+    renderGalleryFields(img.gallery || ['','','','','','','','']);
+    showStatus('โหลดข้อมูลล่าสุดเรียบร้อย', 'ok');
+  }
+
+  document.getElementById('reloadBtn').addEventListener('click', loadCurrentContent);
+
+  // ---------------- Save ----------------
+  document.getElementById('saveBtn').addEventListener('click', async function(){
+    var token = getToken();
+    var saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled = true;
+    try{
+      showStatus('กำลังอัปโหลดรูปภาพ (ถ้ามี)...', 'info', true);
+      var imagesOut = Object.assign({}, loadedImages);
+      var galleryOut = (loadedImages.gallery || ['','','','','','','','']).slice();
+
+      for(var field in pendingUploads){
+        var up = pendingUploads[field];
+        await ghPutFile(token, up.path, up.dataBase64, 'อัปเดตรูป ' + field + ' จากหน้า admin', null);
+        imagesOut[field] = up.path;
+      }
+      for(var idx in pendingGallery){
+        var g = pendingGallery[idx];
+        await ghPutFile(token, g.path, g.dataBase64, 'อัปเดตรูปแกลเลอรีช่อง ' + (parseInt(idx,10)+1) + ' จากหน้า admin', null);
+        galleryOut[idx] = g.path;
+      }
+      imagesOut.gallery = galleryOut;
+
+      var payload = {
+        couple: {
+          nameA: document.getElementById('nameA').value.trim(),
+          nameB: document.getElementById('nameB').value.trim()
+        },
+        event: {
+          dateISO: document.getElementById('eventDate').value,
+          startTime: document.getElementById('eventTime').value || '09:00',
+          venueName: document.getElementById('venueName').value.trim(),
+          venueAddress: document.getElementById('venueAddress').value.trim(),
+          mapUrl: document.getElementById('mapUrl').value.trim()
+        },
+        messages: {
+          tagline: document.getElementById('tagline').value,
+          scheduleLede: document.getElementById('scheduleLede').value.trim(),
+          dresscodeLede: document.getElementById('dresscodeLede').value.trim(),
+          giftLede: document.getElementById('giftLede').value.trim(),
+          rsvpLede: document.getElementById('rsvpLede').value.trim()
+        },
+        schedule: collectSchedule(),
+        images: imagesOut
+      };
+
+      showStatus('กำลังบันทึกเนื้อหา...', 'info', true);
+      var jsonText = JSON.stringify(payload, null, 2);
+
+      try{
+        await ghPutFile(token, CONTENT_PATH, utf8ToBase64(jsonText), 'แก้ไขเนื้อหาเว็บจากหน้า admin', currentSha);
+      }catch(err){
+        // เผื่อ sha ไม่ตรง (มีคนแก้พร้อมกัน) ลองโหลด sha ใหม่แล้วเซฟซ้ำอีกครั้งเดียว
+        var fresh = await ghGetFile(token, CONTENT_PATH);
+        currentSha = fresh ? fresh.sha : null;
+        await ghPutFile(token, CONTENT_PATH, utf8ToBase64(jsonText), 'แก้ไขเนื้อหาเว็บจากหน้า admin', currentSha);
+      }
+
+      pendingUploads = {}; pendingGallery = {};
+      showStatus('บันทึกสำเร็จ! เว็บจะอัปเดตภายใน 1-2 นาที (ลอง hard refresh ถ้ายังไม่เห็นการเปลี่ยนแปลง)', 'ok', true);
+      setTimeout(loadCurrentContent, 1500);
+    }catch(err){
+      showStatus('บันทึกไม่สำเร็จ: ' + err.message, 'err', true);
+    }finally{
+      saveBtn.disabled = false;
+    }
+  });
+
+  // ---------------- Boot ----------------
+  async function enterMain(){
+    gate.style.display = 'none';
+    main.style.display = 'block';
+    await loadCurrentContent();
+  }
+
+  (async function boot(){
+    var token = getToken();
+    if(!token){ return; }
+    try{
+      var repoInfo = await ghGetRepo(token);
+      branch = repoInfo.default_branch || 'main';
+      enterMain();
+    }catch(err){
+      localStorage.removeItem(TOKEN_KEY);
+    }
+  })();
+})();
+</script>
+</body>
+</html>

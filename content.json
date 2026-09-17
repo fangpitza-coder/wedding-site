@@ -1,0 +1,32 @@
+{
+  "couple": {
+    "nameA": "Kittipong",
+    "nameB": "Phimphitcha"
+  },
+  "event": {
+    "dateISO": "2026-11-28",
+    "startTime": "09:00",
+    "venueName": "Chanchiva",
+    "venueAddress": "chanchiva, trat 23000",
+    "mapUrl": "https://maps.app.goo.gl/iJ3Cxn6R8EV3e9rb6?g_st=ic"
+  },
+  "messages": {
+    "tagline": "A little moment,\na lifetime together",
+    "scheduleLede": "ขอเรียนเชิญทุกท่านร่วมเป็นส่วนหนึ่งในวันพิเศษของเรา",
+    "dresscodeLede": "ขอเชิญแขกผู้มีเกียรติร่วมงานในโทนสีที่กลมกลืนกับธีมงาน",
+    "giftLede": "ขอบคุณทุกความรักและคำอวยพรที่มอบให้ในวันพิเศษของเรา",
+    "rsvpLede": "กรุณายืนยันก่อนวันที่ ... เพื่อความสะดวกในการจัดเตรียมงาน"
+  },
+  "schedule": [
+    { "time": "16.29", "title": "RING CEREMONY", "desc": "ร่วมเป็นสักขีพยานในช่วงเวลาสำคัญของเรา" },
+    { "time": "17.09", "title": "WATER BLESSING", "desc": "รับคำอวยพรจากผู้ใหญ่ที่เคารพรัก" },
+    { "time": "18.49", "title": "WEDDING RECEPTION", "desc": "ร่วมรับประทานอาหารและเฉลิมฉลองไปด้วยกัน" },
+    { "time": "20.59", "title": "AFTER PARTY", "desc": "สนุกไปด้วยกันในค่ำคืนพิเศษ" }
+  ],
+  "images": {
+    "heroCouple": "assets/couple-final-watercolor.png",
+    "venue": "assets/chanchiva-venue.png",
+    "paymentQr": "assets/payment-qr.png",
+    "gallery": ["", "", "", "", "", "", "", ""]
+  }
+}

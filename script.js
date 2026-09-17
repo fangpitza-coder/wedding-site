@@ -15,6 +15,131 @@
   var heroProgress = document.getElementById('heroProgress');
   var opened = false;
 
+  // ---------------- เนื้อหาที่แก้ไขได้เอง (content.json ผ่านหน้า admin.html) ----------------
+  // ไฟล์นี้จะถูกดึงมาทับข้อความ/รูปเริ่มต้นในหน้าเว็บ ถ้าโหลดไม่สำเร็จ (ยังไม่มีไฟล์ หรือเน็ตมีปัญหา)
+  // เว็บจะยังคงแสดงข้อความ/รูปเดิมที่เขียนไว้ใน index.html ตามปกติ ไม่พังแน่นอน
+  var SCHEDULE_ICONS = ['icon-rings', 'icon-water', 'icon-cheers', 'icon-party'];
+  var MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(ch){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch];
+    });
+  }
+  function setText(id, value){
+    var el = document.getElementById(id);
+    if(el && value !== undefined && value !== null && value !== '') el.textContent = value;
+  }
+  function setHtmlLines(id, value){
+    var el = document.getElementById(id);
+    if(!el || !value) return;
+    el.innerHTML = escapeHtml(value).replace(/\n/g, '<br>');
+  }
+  function setImgSrc(id, src){
+    var el = document.getElementById(id);
+    if(el && src) el.src = src;
+  }
+
+  function applyContent(data){
+    if(!data) return;
+    var c = data.couple || {};
+    var e = data.event || {};
+    var m = data.messages || {};
+    var img = data.images || {};
+
+    if(c.nameA && c.nameB){
+      document.title = c.nameA + ' & ' + c.nameB + ' — The Wedding';
+      setText('footerNames', c.nameA + ' & ' + c.nameB);
+    }
+    setText('openNameA', c.nameA);
+    setText('openNameB', c.nameB);
+    setText('heroNameA', c.nameA);
+    setText('heroNameB', c.nameB);
+
+    var eventDate = null;
+    if(e.dateISO){
+      var parts = e.dateISO.split('-');
+      if(parts.length === 3){
+        eventDate = { year: parts[0], monthIndex: parseInt(parts[1], 10) - 1, day: String(parseInt(parts[2], 10)) };
+      }
+    }
+    if(eventDate){
+      var monthName = MONTH_NAMES[eventDate.monthIndex] || '';
+      var monthNum = String(eventDate.monthIndex + 1).padStart(2, '0');
+      setText('openDay', eventDate.day);
+      setText('openMonth', monthName.toUpperCase());
+      setText('openYear', eventDate.year);
+      setText('heroDay', eventDate.day);
+      setText('heroMonth', monthName);
+      setText('heroYear', eventDate.year);
+      if(document.getElementById('countdownTimeEl')){
+        document.getElementById('countdownTimeEl').setAttribute('datetime', e.dateISO);
+        setText('countdownTimeEl', eventDate.day + ' ' + monthName + ' ' + eventDate.year);
+      }
+      if(e.venueName){
+        setText('footerDate', eventDate.day + ' . ' + monthNum + ' . ' + eventDate.year + ' — ' + e.venueName);
+      }
+      // อัปเดตตัวเลขนับถอยหลังให้ตรงกับวันที่ใหม่
+      var timeStr = e.startTime || '09:00';
+      var iso = e.dateISO + 'T' + timeStr + ':00+07:00';
+      var parsedDate = new Date(iso);
+      if(!isNaN(parsedDate.getTime())) weddingDate = parsedDate;
+    }
+    setText('openVenue', e.venueName ? String(e.venueName).toUpperCase() : null);
+    setText('heroVenue', e.venueName);
+    setText('locAddress', e.venueAddress);
+    if(e.mapUrl){
+      var mapLink = document.getElementById('locMapLink');
+      if(mapLink) mapLink.href = e.mapUrl;
+    }
+
+    setHtmlLines('heroTagline', m.tagline);
+    if(m.tagline){
+      var footerNote = document.getElementById('footerNote');
+      if(footerNote) footerNote.textContent = m.tagline.replace(/\n/g, ' ');
+    }
+    setText('scheduleLede', m.scheduleLede);
+    setText('dresscodeLede', m.dresscodeLede);
+    setText('giftLede', m.giftLede);
+    setText('rsvpLede', m.rsvpLede);
+
+    if(Array.isArray(data.schedule) && data.schedule.length){
+      var listEl = document.getElementById('scheduleList');
+      if(listEl){
+        listEl.innerHTML = data.schedule.map(function(item, i){
+          var iconClass = SCHEDULE_ICONS[i % SCHEDULE_ICONS.length];
+          return '<div class="sch-row">' +
+            '<div class="sch-time">' + escapeHtml(item.time || '') + '</div>' +
+            '<div class="schedule-icon ' + iconClass + '" aria-hidden="true"></div>' +
+            '<div class="sch-what"><span>' + escapeHtml(item.title || '') + '</span><p>' + escapeHtml(item.desc || '') + '</p></div>' +
+          '</div>';
+        }).join('');
+      }
+    }
+
+    setImgSrc('coupleFinal', img.heroCouple);
+    setImgSrc('venueImg', img.venue);
+    setImgSrc('paymentQrImg', img.paymentQr);
+
+    if(Array.isArray(img.gallery)){
+      var galleryEl = document.getElementById('galleryGrid');
+      if(galleryEl && img.gallery.some(function(url){ return url; })){
+        galleryEl.innerHTML = img.gallery.map(function(url, i){
+          if(url) return '<img class="g-cell g-photo" src="' + escapeHtml(url) + '" alt="ภาพงานแต่ง ' + (i+1) + '" loading="lazy">';
+          return '<div class="g-cell">ภาพที่ ' + (i+1) + '</div>';
+        }).join('');
+      }
+    }
+  }
+
+  function loadContent(){
+    fetch('content.json?v=' + Date.now())
+      .then(function(res){ return res.ok ? res.json() : null; })
+      .then(function(data){ if(data) applyContent(data); })
+      .catch(function(){ /* ใช้ข้อความ/รูปเริ่มต้นใน index.html แทน ไม่ต้องแจ้งเตือนผู้ชม */ });
+  }
+  loadContent();
+
   function startHeroSequence(){
     if(!hero || !coupleStory) return;
     // คงผู้เยี่ยมชมไว้ที่จุดบนสุดจนกว่าฉากเปิดหน้าเมนจะจบ

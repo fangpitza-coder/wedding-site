@@ -28,9 +28,9 @@
   <!-- ข้อความอยู่หลังชั้นซองและการ์ด จึงถูกการ์ดทับได้ระหว่างเปิด -->
   <div class="opening-message" aria-hidden="true">
     <span>THE WEDDING OF</span>
-    <strong><i>Kittipong</i><b>&amp;</b><i>Phimphitcha</i></strong>
+    <strong><i id="openNameA">Kittipong</i><b>&amp;</b><i id="openNameB">Phimphitcha</i></strong>
     <div class="opening-rings"><svg viewBox="0 0 40 24" width="30" height="20" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="15" cy="12" r="8"/><circle cx="25" cy="12" r="8"/></svg></div>
-    <em>28 • NOVEMBER • 2026<br>CHANCHIVA</em>
+    <em><span id="openDay">28</span> • <span id="openMonth">NOVEMBER</span> • <span id="openYear">2026</span><br><span id="openVenue">CHANCHIVA</span></em>
   </div>
   <div class="envelope-stage" id="envelopeStage">
 
@@ -127,12 +127,12 @@
     </div>
     <div class="hero-copy">
       <div class="kicker">The Wedding Of</div>
-      <h1><span class="hero-name">Kittipong</span><span class="amp">&amp;</span><span class="hero-name">Phimphitcha</span></h1>
-      <div class="venue"><!-- ข้อมูลสถานที่: แก้ชื่อสถานที่จัดงานตรงนี้ --> Chanchiva</div>
+      <h1><span class="hero-name" id="heroNameA">Kittipong</span><span class="amp">&amp;</span><span class="hero-name" id="heroNameB">Phimphitcha</span></h1>
+      <div class="venue" id="heroVenue"><!-- ข้อมูลสถานที่: แก้ชื่อสถานที่จัดงานตรงนี้ --> Chanchiva</div>
       <div class="date-row">
-        <span>28</span><span class="dot"></span><span>November</span><span class="dot"></span><span>2026</span>
+        <span id="heroDay">28</span><span class="dot"></span><span id="heroMonth">November</span><span class="dot"></span><span id="heroYear">2026</span>
       </div>
-      <p class="tagline">A little moment,<br>a lifetime together</p>
+      <p class="tagline" id="heroTagline">A little moment,<br>a lifetime together</p>
       <div class="hero-actions">
         <a class="hero-btn" href="#gift">
           <svg class="hero-btn-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.2s-7.3-4.4-9.7-8.7C.7 8 2.1 4.3 5.6 3.8c2-.3 3.7.8 4.6 2.3.9-1.5 2.6-2.6 4.6-2.3 3.5.5 4.9 4.2 3.1 7.7-2.4 4.3-9.6 8.7-9.6 8.7z"/></svg>
@@ -161,7 +161,7 @@
         <span></span><svg viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h18M3 30h18M5 3v5c0 4 5 5 5 8s-5 4-5 8v5M19 3v5c0 4-5 5-5 8s5 4 5 8v5M8 26h8M8 7h8"/></svg><span></span>
       </div>
       <h2 class="eyebrow">Countdown</h2>
-      <p class="countdown-date">Until <time datetime="2026-11-28">28 November 2026</time></p>
+      <p class="countdown-date">Until <time datetime="2026-11-28" id="countdownTimeEl">28 November 2026</time></p>
       <div class="countdown-wrap" id="countdownWrap">
         <div class="cd-box"><div class="cd-num" id="cdDays">00</div><div class="cd-label">Days</div></div>
         <div class="cd-box"><div class="cd-num" id="cdHours">00</div><div class="cd-label">Hours</div></div>
@@ -181,10 +181,10 @@
     <div class="container center">
       <div class="schedule-heading-ornament" aria-hidden="true"><span>⚜</span></div>
       <div class="eyebrow">Wedding Day Schedule</div>
-      <p class="lede">ขอเรียนเชิญทุกท่านร่วมเป็นส่วนหนึ่งในวันพิเศษของเรา</p>
+      <p class="lede" id="scheduleLede">ขอเรียนเชิญทุกท่านร่วมเป็นส่วนหนึ่งในวันพิเศษของเรา</p>
     </div>
     <div class="container">
-      <div class="schedule-list">
+      <div class="schedule-list" id="scheduleList">
         <div class="sch-row">
           <div class="sch-time">16.29</div>
           <div class="schedule-icon icon-rings" aria-hidden="true"></div>
@@ -216,8 +216,8 @@
   <section class="section" id="gallery">
     <div class="container center">
       <div class="eyebrow">Gallery</div>
-      <!-- แทนที่ .g-cell ด้วย <img src="..."> เมื่อมีภาพจริง -->
-      <div class="gallery">
+      <!-- เนื้อหาในนี้จะถูกแทนที่อัตโนมัติด้วยรูปจริงจาก content.json (แก้ได้ที่หน้า admin.html) -->
+      <div class="gallery" id="galleryGrid">
         <div class="g-cell">ภาพที่ 1</div>
         <div class="g-cell">ภาพที่ 2</div>
         <div class="g-cell">ภาพที่ 3</div>
@@ -235,13 +235,13 @@
     <div class="container center">
       <div class="eyebrow">Location</div>
       <figure class="venue-art">
-        <img src="assets/chanchiva-venue.png" width="1484" height="1060" loading="lazy" decoding="async" alt="ภาพวาดสถานที่จัดงาน Chanchiva พร้อมโต๊ะจัดเลี้ยงกลางสวนและไฟประดับ">
+        <img id="venueImg" src="assets/chanchiva-venue.png" width="1484" height="1060" loading="lazy" decoding="async" alt="ภาพวาดสถานที่จัดงาน Chanchiva พร้อมโต๊ะจัดเลี้ยงกลางสวนและไฟประดับ">
       </figure>
       <div class="loc-box">
         <!-- ข้อมูลสถานที่: แก้ชื่อ/ที่อยู่จริงตรงนี้ -->
-        
-        <p>chanchiva, trat 23000</p>
-        <a class="btn solid" href="https://maps.app.goo.gl/iJ3Cxn6R8EV3e9rb6?g_st=ic" target="_blank" rel="noopener">เปิดใน Google Maps</a>
+
+        <p id="locAddress">chanchiva, trat 23000</p>
+        <a class="btn solid" id="locMapLink" href="https://maps.app.goo.gl/iJ3Cxn6R8EV3e9rb6?g_st=ic" target="_blank" rel="noopener">เปิดใน Google Maps</a>
       </div>
     </div>
   </section>
@@ -252,7 +252,7 @@
       <p class="dress-kicker">OUR SPECIAL DAY</p>
       <h2 class="eyebrow">Dress Code</h2>
       <div class="dress-divider" aria-hidden="true"></div>
-      <p class="lede">ขอเชิญแขกผู้มีเกียรติร่วมงานในโทนสีที่กลมกลืนกับธีมงาน</p>
+      <p class="lede" id="dresscodeLede">ขอเชิญแขกผู้มีเกียรติร่วมงานในโทนสีที่กลมกลืนกับธีมงาน</p>
       <div class="dress-row">
         <div class="dress-swatch"><div class="chip" style="background:#faf5ec"></div><span>Ivory</span></div>
         <div class="dress-swatch"><div class="chip" style="background:#d9c39c"></div><span>Champagne</span></div>
@@ -269,11 +269,11 @@
   <section class="section" id="gift">
     <div class="container center">
       <div class="eyebrow">With Love</div>
-      <p class="lede">ขอบคุณทุกความรักและคำอวยพรที่มอบให้ในวันพิเศษของเรา</p>
+      <p class="lede" id="giftLede">ขอบคุณทุกความรักและคำอวยพรที่มอบให้ในวันพิเศษของเรา</p>
     </div>
     <div class="container">
       <form class="gift-panel" id="giftForm">
-        <img class="payment-qr" src="assets/payment-qr.png" alt="QR PromptPay สำหรับร่วมแสดงความยินดี">
+        <img class="payment-qr" id="paymentQrImg" src="assets/payment-qr.png" alt="QR PromptPay สำหรับร่วมแสดงความยินดี">
         <div class="gift-fields" id="giftFields">
           <div class="f-row">
             <label for="transferName">ชื่อผู้โอน</label>
@@ -305,7 +305,7 @@
   <section class="section" id="rsvp">
     <div class="container center">
       <div class="eyebrow">ตอบรับคำเชิญ</div>
-      <p class="lede">กรุณายืนยันก่อนวันที่ ... เพื่อความสะดวกในการจัดเตรียมงาน</p>
+      <p class="lede" id="rsvpLede">กรุณายืนยันก่อนวันที่ ... เพื่อความสะดวกในการจัดเตรียมงาน</p>
     </div>
     <div class="container">
       <!--
@@ -343,9 +343,9 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="f-names">Kittipong &amp; Phimphitcha</div>
-    <div class="f-date">28 . 11 . 2026 &nbsp;—&nbsp; Chanchiva</div>
-    <div class="f-note">A little moment, a lifetime together</div>
+    <div class="f-names" id="footerNames">Kittipong &amp; Phimphitcha</div>
+    <div class="f-date" id="footerDate">28 . 11 . 2026 &nbsp;—&nbsp; Chanchiva</div>
+    <div class="f-note" id="footerNote">A little moment, a lifetime together</div>
   </footer>
 
 </div>
