@@ -189,6 +189,16 @@ a{ color:inherit; }
   display:block; margin-top:27px; color:#8b7660; font:500 clamp(11px, 2.5vw, 14px)/1.85 'Cormorant Garamond', var(--serif-en);
   letter-spacing:.35em; text-transform:uppercase; font-style:normal;
 }
+/* บั๊กจริง: ".opening-message span" ด้านบนตั้งใจไว้สำหรับ span บรรทัด "THE WEDDING OF" เท่านั้น
+   แต่ selector นี้ไปจับ span ของวันที่/สถานที่ (#openDay #openMonth #openYear #openVenue) ที่อยู่ใน
+   <em> ด้วยโดยไม่ตั้งใจ ทำให้แต่ละคำ (28 / NOVEMBER / 2026 / CHANCHIVA) กลายเป็น display:block
+   แยกคนละบรรทัดเต็มความกว้าง แทนที่จะเรียงในบรรทัดเดียวกันแบบ "28 • NOVEMBER • 2026"
+   ทำให้บล็อกข้อความสูงเกินจนส่วนท้าย (2026, CHANCHIVA) ล้นไปโดนซองทับ — แก้โดยให้ span ที่อยู่ใน
+   em กลับไปเป็น inline ตามปกติ (เฉพาะจุดนี้ specificity สูงกว่า ".opening-message span" จึงชนะ) */
+.opening-message em span{
+  display:inline; margin-bottom:0; font:inherit; letter-spacing:inherit;
+  color:inherit; text-transform:inherit;
+}
 .opening-message::after{
   content:"○  ○"; display:block; width:150px; margin:17px auto 0; padding-top:12px;
   border-top:1px solid rgba(155,120,63,.65); color:#af8a52; font:400 24px/.55 'Cormorant Garamond', serif;
