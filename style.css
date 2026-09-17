@@ -29,7 +29,10 @@
 }
 
 *{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+/* กัน iOS Safari ขยายขนาดตัวอักษรอัตโนมัติ (text autosizing) ซึ่งทำให้ข้อความ
+   ในซองเปิดการ์ดและเมนู 3 ปุ่มบนหน้าฮีโร่ ล้นพื้นที่ที่ออกแบบไว้บนเครื่องจริง
+   ทั้งที่ตอนพรีวิวบนคอมพิวเตอร์ดูปกติ */
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 body{
   margin:0;
   font-family:var(--serif-th);
@@ -201,6 +204,11 @@ a{ color:inherit; }
 }
 
 .env-back  { z-index:1; }
+/* envelope-back/pocket.webp มีขนาดจริง 768x615 ส่วน envelope-flap/closed.webp เป็น 783x615
+   (กว้างไม่เท่ากันแม้สูงเท่ากัน) พอใช้ object-fit:contain ร่วมกับกล่องที่สัดส่วน 783/615
+   สองรูปแรกเลยเหลือช่องว่างริมซ้าย-ขวาเล็กน้อย ทำให้ฝาซองกับตัวซองไม่สนิทกันพอดี
+   แก้โดยให้สองเลเยอร์นี้ยืดเต็มกล่อง (fill) แทน — ยืดแค่ ~2% แทบไม่เห็นความต่าง แต่ขอบจะชิดสนิทกับฝาซอง */
+.env-back, .env-pocket{ object-fit:fill; }
 
 /* การ์ด: สูงสุด 320px และรักษาสัดส่วนเดิมเสมอ
    บนหน้าจอแคบ ความสูงจะลดตามซอง จึงไม่ใหญ่กว่าตัวซอง */
