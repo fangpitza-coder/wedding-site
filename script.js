@@ -277,25 +277,196 @@
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
-  // ---------------- RSVP (client-side placeholder) ----------------
+  // ---------------- RSVP (ส่งข้อมูลเข้า Google ชีต ผ่าน Apps Script) ----------------
+  // วาง URL ของ Web app ที่ได้จากการ Deploy Google Apps Script ตรงนี้
+  // (ดูขั้นตอนสร้าง/deploy ได้จากไฟล์ google-apps-script.gs ที่แนบมาให้)
+  var RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbytJEMhdpnxRtYQ78pfDf1hFSWvP88JbYDrcYTnLPLOeDyBzERWfties0MpGUZbL6z4hw/exec';
+
+  var rsvpForm = document.getElementById('rsvpForm');
+  var rsvpFields = document.getElementById('rsvpFields');
+  var rsvpSuccess = document.getElementById('rsvpSuccess');
+  var rsvpCountInput = document.getElementById('rsvpCount');
+  var rsvpConfirmOverlay = document.getElementById('rsvpConfirmOverlay');
+  var rsvpConfirmSummary = document.getElementById('rsvpConfirmSummary');
+  var pendingRsvpData = null;
+
+  // ติ๊ก "ไม่สะดวกเข้าร่วม" แล้วปิดช่องจำนวนแขก (เทา แก้ไม่ได้ ค่าเป็น 0)
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="attending"]'), function(radio){
+    radio.addEventListener('change', function(){
+      if (this.value === 'no'){
+        rsvpCountInput.value = '0';
+        rsvpCountInput.disabled = true;
+      } else {
+        rsvpCountInput.disabled = false;
+        if (rsvpCountInput.value === '0') rsvpCountInput.value = '1';
+      }
+    });
+  });
+
+  function sendRsvpData(data){
+    if (!RSVP_ENDPOINT || RSVP_ENDPOINT.indexOf('PASTE_YOUR') === 0){
+      console.warn('RSVP: ยังไม่ได้ใส่ Google Apps Script URL ในตัวแปร RSVP_ENDPOINT (script.js) ข้อมูลนี้จึงยังไม่ถูกส่งไปเก็บที่ไหน');
+      return;
+    }
+    // ใช้ mode:'no-cors' + Content-Type: text/plain เพื่อเลี่ยงปัญหา CORS ของ Apps Script
+    // (จึงอ่านผลลัพธ์กลับมาตรวจสอบไม่ได้ แต่ข้อมูลจะถูกบันทึกลงชีตตามปกติถ้า URL ถูกต้อง)
+    fetch(RSVP_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    }).catch(function(err){ console.error('RSVP submit failed', err); });
+  }
+
+  function openRsvpConfirm(){
+    rsvpConfirmOverlay.hidden = false;
+    document.body.classList.add('locked');
+  }
+  function closeRsvpConfirm(){
+    rsvpConfirmOverlay.hidden = true;
+    document.body.classList.remove('locked');
+  }
+
   function handleRsvpSubmit(e){
     e.preventDefault();
-    // TODO: การเชื่อมฟอร์ม RSVP — เปลี่ยนส่วนนี้ให้ส่งข้อมูลไปยังปลายทางจริง เช่น:
-    // fetch('https://your-endpoint.example.com/rsvp', {
-    //   method: 'POST',
-    //   headers: {'Content-Type':'application/json'},
-    //   body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
-    // });
-    var note = document.getElementById('rsvpNote');
-    note.classList.add('show');
-    e.target.reset();
+    var form = e.target;
+    var data = Object.fromEntries(new FormData(form));
+    pendingRsvpData = data;
+
+    var attendingText = data.attending === 'yes' ? 'ยินดีเข้าร่วม' : 'ไม่สะดวกเข้าร่วม';
+    rsvpConfirmSummary.innerHTML =
+      '<div class="rsvp-confirm-row"><span class="rsvp-confirm-label">ชื่อ-นามสกุล</span><span class="rsvp-confirm-value">' + (data.name || '-') + '</span></div>' +
+      '<div class="rsvp-confirm-row"><span class="rsvp-confirm-label">จำนวนแขก</span><span class="rsvp-confirm-value">' + (data.guests || '0') + '</span></div>' +
+      '<div class="rsvp-confirm-row"><span class="rsvp-confirm-label">สถานะ</span><span class="rsvp-confirm-value">' + attendingText + '</span></div>';
+    openRsvpConfirm();
   }
-  document.getElementById('rsvpForm').addEventListener('submit', handleRsvpSubmit);
+  rsvpForm.addEventListener('submit', handleRsvpSubmit);
+
+  function cancelRsvpConfirm(){
+    closeRsvpConfirm();
+    pendingRsvpData = null;
+  }
+  document.getElementById('rsvpConfirmCancel').addEventListener('click', cancelRsvpConfirm);
+  document.getElementById('rsvpConfirmClose').addEventListener('click', cancelRsvpConfirm);
+
+  document.getElementById('rsvpConfirmOk').addEventListener('click', function(){
+    if (pendingRsvpData) sendRsvpData(pendingRsvpData);
+    pendingRsvpData = null;
+    closeRsvpConfirm();
+    rsvpFields.hidden = true;
+    rsvpSuccess.hidden = false;
+  });
+
+  document.getElementById('rsvpResubmitBtn').addEventListener('click', function(){
+    rsvpForm.reset();
+    rsvpCountInput.disabled = false;
+    rsvpSuccess.hidden = true;
+    rsvpFields.hidden = false;
+  });
+
+  // ---------------- With Love / Gift (ส่งเข้า Google ชีตเดียวกัน คนละแท็บ) ----------------
+  var giftForm = document.getElementById('giftForm');
+  var giftFieldsEl = document.getElementById('giftFields');
+  var giftSuccessEl = document.getElementById('giftSuccess');
+  var giftConfirmOverlay = document.getElementById('giftConfirmOverlay');
+  var transferSlipInput = document.getElementById('transferSlip');
+  var slipSelected = document.getElementById('slipSelected');
+  var slipFilename = document.getElementById('slipFilename');
+  var pendingGiftData = null;
+
+  // แสดงชื่อไฟล์ที่เลือก + ปุ่มยกเลิกไฟล์
+  transferSlipInput.addEventListener('change', function(){
+    var file = transferSlipInput.files && transferSlipInput.files[0];
+    if (file){
+      slipFilename.textContent = file.name;
+      slipSelected.hidden = false;
+    } else {
+      slipSelected.hidden = true;
+    }
+  });
+  document.getElementById('slipRemoveBtn').addEventListener('click', function(){
+    transferSlipInput.value = '';
+    slipSelected.hidden = true;
+  });
+
+  function readFileAsBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || '');
+        var base64 = result.split(',')[1] || '';
+        resolve({ filename: file.name, mimeType: file.type || 'application/octet-stream', data: base64 });
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function openGiftConfirm(){
+    giftConfirmOverlay.hidden = false;
+    document.body.classList.add('locked');
+  }
+  function closeGiftConfirm(){
+    giftConfirmOverlay.hidden = true;
+    document.body.classList.remove('locked');
+  }
+
+  function sendGiftData(data){
+    function send(slipData){
+      var payload = { type: 'gift', transferName: data.transferName, giftMessage: data.giftMessage };
+      if (slipData) payload.slip = slipData;
+
+      if (!RSVP_ENDPOINT || RSVP_ENDPOINT.indexOf('PASTE_YOUR') === 0){
+        console.warn('Gift: ยังไม่ได้ใส่ Google Apps Script URL ในตัวแปร RSVP_ENDPOINT (script.js) ข้อมูลนี้จึงยังไม่ถูกส่งไปเก็บที่ไหน');
+      } else {
+        fetch(RSVP_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        }).catch(function(err){ console.error('Gift submit failed', err); });
+      }
+    }
+    if (data.file){
+      readFileAsBase64(data.file).then(send).catch(function(){ send(null); });
+    } else {
+      send(null);
+    }
+  }
 
   function handleGiftSubmit(e){
     e.preventDefault();
-    document.getElementById('giftNote').classList.add('show');
-    e.target.reset();
+    var form = e.target;
+    var transferName = form.transferName ? form.transferName.value : '';
+    var giftMessage = form.giftMessage ? form.giftMessage.value : '';
+    var file = transferSlipInput.files && transferSlipInput.files[0];
+    pendingGiftData = { transferName: transferName, giftMessage: giftMessage, file: file || null };
+
+    openGiftConfirm();
   }
-  document.getElementById('giftForm').addEventListener('submit', handleGiftSubmit);
+  giftForm.addEventListener('submit', handleGiftSubmit);
+
+  function cancelGiftConfirm(){
+    closeGiftConfirm();
+    pendingGiftData = null;
+  }
+  document.getElementById('giftConfirmCancel').addEventListener('click', cancelGiftConfirm);
+  document.getElementById('giftConfirmClose').addEventListener('click', cancelGiftConfirm);
+
+  document.getElementById('giftConfirmOk').addEventListener('click', function(){
+    if (pendingGiftData) sendGiftData(pendingGiftData);
+    pendingGiftData = null;
+    closeGiftConfirm();
+    giftForm.reset();
+    slipSelected.hidden = true;
+    giftFieldsEl.hidden = true;
+    giftSuccessEl.hidden = false;
+  });
+
+  document.getElementById('giftResubmitBtn').addEventListener('click', function(){
+    giftForm.reset();
+    slipSelected.hidden = true;
+    giftSuccessEl.hidden = true;
+    giftFieldsEl.hidden = false;
+  });
 })();

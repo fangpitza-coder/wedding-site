@@ -274,7 +274,7 @@
     <div class="container">
       <form class="gift-panel" id="giftForm">
         <img class="payment-qr" src="assets/payment-qr.png" alt="QR PromptPay สำหรับร่วมแสดงความยินดี">
-        <div class="gift-fields">
+        <div class="gift-fields" id="giftFields">
           <div class="f-row">
             <label for="transferName">ชื่อผู้โอน</label>
             <input type="text" id="transferName" name="transferName" required placeholder="ชื่อ-นามสกุล">
@@ -282,13 +282,20 @@
           <div class="f-row">
             <label class="slip-label" for="transferSlip">แนบสลิปการโอนเงิน <span>เลือกไฟล์</span></label>
             <input class="slip-input" type="file" id="transferSlip" name="transferSlip" accept="image/*">
+            <div class="slip-selected" id="slipSelected" hidden>
+              <span class="slip-filename" id="slipFilename"></span>
+              <button type="button" class="slip-remove" id="slipRemoveBtn">ยกเลิกไฟล์</button>
+            </div>
           </div>
           <div class="f-row">
             <label for="giftMessage">เขียนคำอวยพรเล็ก ๆ น้อย ๆ</label>
             <textarea id="giftMessage" name="giftMessage" placeholder="ขอให้มีความสุขมาก ๆ ตลอดไป"></textarea>
           </div>
           <button type="submit" class="btn solid">ส่งความยินดี</button>
-          <p class="rsvp-note" id="giftNote">ขอบคุณสำหรับความรักและคำอวยพรนะคะ/ครับ</p>
+        </div>
+        <div class="rsvp-success" id="giftSuccess" hidden>
+          <p class="rsvp-success-text">ส่งความยินดีเรียบร้อยแล้ว</p>
+          <button type="button" class="btn" id="giftResubmitBtn">ส่งอีกครั้ง</button>
         </div>
       </form>
     </div>
@@ -308,23 +315,28 @@
         โดยแก้ที่ฟังก์ชัน handleRsvpSubmit() ด้านล่าง (เช่น เปลี่ยนเป็น fetch('URL ปลายทาง', {...}))
       -->
       <form class="rsvp-panel" id="rsvpForm">
-        <div class="f-row">
-          <label for="rsvpName">ชื่อ-นามสกุล</label>
-          <input type="text" id="rsvpName" name="name" required placeholder="ชื่อของคุณ">
-        </div>
-        <div class="f-row">
-          <label for="rsvpCount">จำนวนแขกที่มาร่วมงาน (รวมตัวท่านเอง)</label>
-          <input type="number" id="rsvpCount" name="guests" min="1" value="1" required>
-        </div>
-        <div class="f-row">
-          <label>การเข้าร่วมงาน</label>
-          <div class="radio-group">
-            <label><input type="radio" name="attending" value="yes" checked> ยินดีเข้าร่วม</label>
-            <label><input type="radio" name="attending" value="no"> ไม่สะดวกเข้าร่วม</label>
+        <div class="rsvp-fields" id="rsvpFields">
+          <div class="f-row">
+            <label for="rsvpName">ชื่อ-นามสกุล</label>
+            <input type="text" id="rsvpName" name="name" required placeholder="ชื่อของคุณ">
           </div>
+          <div class="f-row">
+            <label for="rsvpCount">จำนวนแขกที่มาร่วมงาน (รวมตัวท่านเอง)</label>
+            <input type="number" id="rsvpCount" name="guests" min="1" value="1" required>
+          </div>
+          <div class="f-row">
+            <label>การเข้าร่วมงาน</label>
+            <div class="radio-group">
+              <label><input type="radio" name="attending" value="yes" checked> ยินดีเข้าร่วม</label>
+              <label><input type="radio" name="attending" value="no"> ไม่สะดวกเข้าร่วม</label>
+            </div>
+          </div>
+          <button type="submit" class="btn">ส่งคำตอบรับ</button>
         </div>
-        <button type="submit" class="btn">ส่งคำตอบรับ</button>
-        <p class="rsvp-note" id="rsvpNote">ขอบคุณที่ยืนยันมานะคะ/ครับ พบกันวันที่ 28 พฤศจิกายน 2026</p>
+        <div class="rsvp-success" id="rsvpSuccess" hidden>
+          <p class="rsvp-success-text">ได้ตอบรับคำเชิญเรียบร้อยแล้ว</p>
+          <button type="button" class="btn" id="rsvpResubmitBtn">ส่งคำตอบอีกครั้ง</button>
+        </div>
       </form>
     </div>
   </section>
@@ -336,6 +348,51 @@
     <div class="f-note">A little moment, a lifetime together</div>
   </footer>
 
+</div>
+
+<!-- อยู่นอก #site ตั้งใจ: #site มี transform (scale) ตอนเปิดการ์ดจบแล้ว ซึ่งจะทำให้
+     position:fixed ของลูกข้างในยึดกับ #site แทนจอจริง ป็อปอัปเลยต้องอยู่นอกเพื่อให้กึ่งกลางจอเป๊ะ -->
+<div class="rsvp-confirm-overlay" id="rsvpConfirmOverlay" hidden>
+  <div class="rsvp-confirm-box">
+    <button type="button" class="rsvp-confirm-close" id="rsvpConfirmClose" aria-label="ปิด">&times;</button>
+    <span class="rsvp-confirm-corner rsvp-confirm-corner-tl" aria-hidden="true"></span>
+    <span class="rsvp-confirm-corner rsvp-confirm-corner-br" aria-hidden="true"></span>
+    <p class="rsvp-confirm-thankyou">Thank you</p>
+    <p class="rsvp-confirm-title">ยืนยันข้อมูลการตอบรับ</p>
+    <div class="rsvp-confirm-divider" aria-hidden="true">
+      <svg viewBox="0 0 24 16" width="22" height="15" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 15C12 15 3 11 3 5C3 5 9 3 12 8C15 3 21 5 21 5C21 11 12 15 12 15Z"/></svg>
+    </div>
+    <div class="rsvp-confirm-summary" id="rsvpConfirmSummary"></div>
+    <div class="rsvp-confirm-actions">
+      <button type="button" class="rsvp-confirm-btn rsvp-confirm-btn-outline" id="rsvpConfirmCancel">แก้ไขอีกครั้ง</button>
+      <button type="button" class="rsvp-confirm-btn rsvp-confirm-btn-solid" id="rsvpConfirmOk">ยืนยัน <span aria-hidden="true">&rarr;</span></button>
+    </div>
+    <div class="rsvp-confirm-divider rsvp-confirm-divider-small" aria-hidden="true">
+      <svg viewBox="0 0 24 16" width="16" height="11" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 15C12 15 3 11 3 5C3 5 9 3 12 8C15 3 21 5 21 5C21 11 12 15 12 15Z"/></svg>
+    </div>
+    <p class="rsvp-confirm-footer">SEE YOU THERE</p>
+  </div>
+</div>
+
+<div class="rsvp-confirm-overlay" id="giftConfirmOverlay" hidden>
+  <div class="rsvp-confirm-box">
+    <button type="button" class="rsvp-confirm-close" id="giftConfirmClose" aria-label="ปิด">&times;</button>
+    <span class="rsvp-confirm-corner rsvp-confirm-corner-tl" aria-hidden="true"></span>
+    <span class="rsvp-confirm-corner rsvp-confirm-corner-br" aria-hidden="true"></span>
+    <p class="rsvp-confirm-thankyou">Thank you</p>
+    <p class="rsvp-confirm-title">ยืนยันการส่งความยินดี</p>
+    <div class="rsvp-confirm-divider" aria-hidden="true">
+      <svg viewBox="0 0 24 16" width="22" height="15" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 15C12 15 3 11 3 5C3 5 9 3 12 8C15 3 21 5 21 5C21 11 12 15 12 15Z"/></svg>
+    </div>
+    <div class="rsvp-confirm-actions">
+      <button type="button" class="rsvp-confirm-btn rsvp-confirm-btn-outline" id="giftConfirmCancel">ยกเลิก</button>
+      <button type="button" class="rsvp-confirm-btn rsvp-confirm-btn-solid" id="giftConfirmOk">ยืนยัน <span aria-hidden="true">&rarr;</span></button>
+    </div>
+    <div class="rsvp-confirm-divider rsvp-confirm-divider-small" aria-hidden="true">
+      <svg viewBox="0 0 24 16" width="16" height="11" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 15C12 15 3 11 3 5C3 5 9 3 12 8C15 3 21 5 21 5C21 11 12 15 12 15Z"/></svg>
+    </div>
+    <p class="rsvp-confirm-footer">WITH LOVE</p>
+  </div>
 </div>
 
 <script src="script.js"></script>
