@@ -4,7 +4,6 @@
   var site    = document.getElementById('site');
   var cardHolder = document.getElementById('cardHolder');
   var musicPlayer = document.getElementById('musicPlayer');
-  var musicToggle = document.getElementById('musicToggle');
   var openSound = document.getElementById('openSound');
   var slideSound = document.getElementById('slideSound');
   var hero = document.getElementById('hero');
@@ -197,9 +196,7 @@
     musicPlayer.volume = 0.55;
     var playAttempt = musicPlayer.play();
     if(playAttempt && typeof playAttempt.catch === 'function'){
-      playAttempt.catch(function(){
-        musicToggle.setAttribute('aria-pressed', 'false');
-      });
+      playAttempt.catch(function(){});
     }
   }
 
@@ -222,21 +219,6 @@
       playAttempt.catch(function(){});
     }
   }
-
-  function toggleMusic(){
-    if(musicPlayer.paused){
-      startMusic();
-      return;
-    }
-    musicPlayer.pause();
-  }
-
-  musicPlayer.addEventListener('playing', function(){
-    musicToggle.setAttribute('aria-pressed', 'true');
-  });
-  musicPlayer.addEventListener('pause', function(){
-    musicToggle.setAttribute('aria-pressed', 'false');
-  });
 
   // ให้แต่ละส่วนของหน้าเนื้อหาค่อย ๆ ปรากฏเมื่อเลื่อนมาถึง
   function setupScrollReveal(){
@@ -376,7 +358,6 @@
   }
 
   opening.addEventListener('click', openEnvelope);
-  musicToggle.addEventListener('click', toggleMusic);
   opening.addEventListener('keydown', function(e){
     if(e.key === 'Enter' || e.key === ' ' || e.code === 'Space'){
       e.preventDefault();

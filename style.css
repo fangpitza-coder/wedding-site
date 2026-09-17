@@ -43,19 +43,6 @@ body{
 }
 body.locked{ overflow:hidden; height:100vh; }
 html.hero-locked, body.hero-locked{ overflow:hidden; height:100%; overscroll-behavior:none; }
-.music-toggle{
-  position:fixed; z-index:20; right:18px; bottom:18px;
-  width:46px; height:46px; padding:0;
-  display:flex; align-items:center; justify-content:center;
-  border:1px solid rgba(96,74,49,.36); border-radius:50%; background:rgba(250,245,236,.92);
-  color:var(--ink); box-shadow:0 5px 18px rgba(80,60,38,.14); cursor:pointer;
-  font:500 18px var(--serif-en); letter-spacing:0; line-height:1;
-}
-.music-toggle[aria-pressed="true"]{ background:var(--sage-deep); border-color:var(--sage-deep); color:#fff; }
-.music-toggle svg{ display:none; }
-.music-toggle .icon-off{ display:block; }
-.music-toggle[aria-pressed="true"] .icon-off{ display:none; }
-.music-toggle[aria-pressed="true"] .icon-on{ display:block; }
 
 img{ max-width:100%; display:block; }
 h1,h2,h3{ margin:0; font-weight:500; }
@@ -329,7 +316,8 @@ a{ color:inherit; }
 }
 /* 0.3–1.0s ซองปิดจางหาย + ฝาหมุนเปิด */
 .envelope-stage.flap-open .env-closed{ opacity:0; }
-.envelope-stage.flap-open .env-flap{ transform:perspective(1400px) rotateX(-178deg); }
+.envelope-stage.flap-open .env-flap {
+  transform:translate(2px, 4.3px) perspective(1400px) rotateX(-178deg);}
 /* หลังฝาหมุนเปิดเสร็จ ย้ายไปไว้หลังสุด เพื่อไม่ให้ทับการ์ดที่กำลังเลื่อนออก */
 .envelope-stage.flap-sent-back .env-flap{ z-index:0; }
 

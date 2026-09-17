@@ -73,11 +73,6 @@
 <audio id="musicPlayer" loop preload="auto">
   <source src="assets/sweet-nothing.mp3" type="audio/mpeg">
 </audio>
-<button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="เล่น/หยุดเพลงประกอบ">
-  <svg class="icon-off" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M4 4l16 16"/></svg>
-  <svg class="icon-on" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
-</button>
-
 <!-- =========================================================
      MAIN SITE
      ========================================================= -->
@@ -265,47 +260,11 @@
     </div>
   </section>
 
-  <!-- 8) CONGRATULATIONS / GIFT -->
-  <section class="section" id="gift">
-    <div class="container center">
-      <div class="eyebrow">With Love</div>
-      <p class="lede" id="giftLede">ขอบคุณทุกความรักและคำอวยพรที่มอบให้ในวันพิเศษของเรา</p>
-    </div>
-    <div class="container">
-      <form class="gift-panel" id="giftForm">
-        <img class="payment-qr" id="paymentQrImg" src="assets/payment-qr.png" alt="QR PromptPay สำหรับร่วมแสดงความยินดี">
-        <div class="gift-fields" id="giftFields">
-          <div class="f-row">
-            <label for="transferName">ชื่อผู้โอน</label>
-            <input type="text" id="transferName" name="transferName" required placeholder="ชื่อ-นามสกุล">
-          </div>
-          <div class="f-row">
-            <label class="slip-label" for="transferSlip">แนบสลิปการโอนเงิน <span>เลือกไฟล์</span></label>
-            <input class="slip-input" type="file" id="transferSlip" name="transferSlip" accept="image/*">
-            <div class="slip-selected" id="slipSelected" hidden>
-              <span class="slip-filename" id="slipFilename"></span>
-              <button type="button" class="slip-remove" id="slipRemoveBtn">ยกเลิกไฟล์</button>
-            </div>
-          </div>
-          <div class="f-row">
-            <label for="giftMessage">เขียนคำอวยพรเล็ก ๆ น้อย ๆ</label>
-            <textarea id="giftMessage" name="giftMessage" placeholder="ขอให้มีความสุขมาก ๆ ตลอดไป"></textarea>
-          </div>
-          <button type="submit" class="btn solid">ส่งความยินดี</button>
-        </div>
-        <div class="rsvp-success" id="giftSuccess" hidden>
-          <p class="rsvp-success-text">ส่งความยินดีเรียบร้อยแล้ว</p>
-          <button type="button" class="btn" id="giftResubmitBtn">ส่งอีกครั้ง</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- 9) RSVP -->
+  <!-- 8) RSVP -->
   <section class="section" id="rsvp">
     <div class="container center">
       <div class="eyebrow">ตอบรับคำเชิญ</div>
-      <p class="lede" id="rsvpLede">กรุณายืนยันก่อนวันที่ ... เพื่อความสะดวกในการจัดเตรียมงาน</p>
+      <p class="lede" id="rsvpLede">กรุณายืนยันก่อนวันที่ 1.11.69 เพื่อความสะดวกในการจัดเตรียมงาน</p>
     </div>
     <div class="container">
       <!--
@@ -336,6 +295,42 @@
         <div class="rsvp-success" id="rsvpSuccess" hidden>
           <p class="rsvp-success-text">ได้ตอบรับคำเชิญเรียบร้อยแล้ว</p>
           <button type="button" class="btn" id="rsvpResubmitBtn">ส่งคำตอบอีกครั้ง</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 9) CONGRATULATIONS / GIFT -->
+  <section class="section" id="gift">
+    <div class="container center">
+      <div class="eyebrow">With Love</div>
+      <p class="lede" id="giftLede">ขอบคุณทุกความรักและคำอวยพรที่มอบให้ในวันพิเศษของเรา</p>
+    </div>
+    <div class="container">
+      <form class="gift-panel" id="giftForm">
+        <img class="payment-qr" id="paymentQrImg" src="assets/payment-qr.png" alt="QR PromptPay สำหรับร่วมแสดงความยินดี">
+        <div class="gift-fields" id="giftFields">
+          <div class="f-row">
+            <label for="transferName">ชื่อผู้โอน</label>
+            <input type="text" id="transferName" name="transferName" required placeholder="ชื่อ-นามสกุล">
+          </div>
+          <div class="f-row">
+            <label class="slip-label" for="transferSlip">แนบสลิปการโอนเงิน <span>เลือกไฟล์</span></label>
+            <input class="slip-input" type="file" id="transferSlip" name="transferSlip" accept="image/*">
+            <div class="slip-selected" id="slipSelected" hidden>
+              <span class="slip-filename" id="slipFilename"></span>
+              <button type="button" class="slip-remove" id="slipRemoveBtn">ยกเลิกไฟล์</button>
+            </div>
+          </div>
+          <div class="f-row">
+            <label for="giftMessage">เขียนคำอวยพรเล็ก ๆ น้อย ๆ</label>
+            <textarea id="giftMessage" name="giftMessage" placeholder="ขอให้มีความสุขมาก ๆ ตลอดไป"></textarea>
+          </div>
+          <button type="submit" class="btn solid">ส่งความยินดี</button>
+        </div>
+        <div class="rsvp-success" id="giftSuccess" hidden>
+          <p class="rsvp-success-text">ส่งความยินดีเรียบร้อยแล้ว</p>
+          <button type="button" class="btn" id="giftResubmitBtn">ส่งอีกครั้ง</button>
         </div>
       </form>
     </div>
