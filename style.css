@@ -1410,7 +1410,11 @@ footer .f-note{ margin-top:16px; font-size:12px; opacity:.55; }
 @media(prefers-reduced-motion:reduce){.petal-shower{display:none}}
 
 /* Opening stationery: mobile-first proportions, original envelope interaction. */
-#opening-screen{padding:0;background:#f8f3e9;overflow:hidden}
+/* height:100svh (ความสูงจอเล็กสุดที่เป็นไปได้) แทนที่จะปล่อยให้พึ่ง inset:0 เฉยๆ
+   เพราะ iOS Safari จะขยับแถบที่อยู่/แถบเครื่องมือหด-ขยายได้ระหว่างที่หน้านี้เปิดอยู่
+   ทำให้พื้นที่จริงเปลี่ยนไปมา และองค์ประกอบที่วางตำแหน่งด้วย % (เช่น TAP TO OPEN)
+   ขยับตามไปด้วยจนบางจังหวะไปทับซอง — ล็อกความสูงอ้างอิงให้นิ่งด้วย svh กันปัญหานี้ */
+#opening-screen{padding:0;background:#f8f3e9;overflow:hidden;height:100svh}
 #opening-screen::before{opacity:.16}
 #opening-screen::after{background:#eee5d6}
 #opening-screen .opening-message{top:10%;width:min(86vw,480px);text-shadow:none;color:#846647}
@@ -1449,8 +1453,11 @@ footer .f-note{ margin-top:16px; font-size:12px; opacity:.55; }
 #opening-screen .opening-message>span{margin-bottom:clamp(18px,2.8dvh,28px)}
 #opening-screen .opening-message b{margin:10px 0}
 #opening-screen .opening-rings{margin-top:16px}
-#opening-screen .tap-hint{top:74%}
-#opening-screen .opening-motto{bottom:9%}
+/* เดิม top:74% / bottom:9% ทำให้ TAP TO OPEN ไปทับขอบล่างของซองพอดีในบางความสูงจอ
+   (คำนวณแล้วยืนยันด้วย Playwright ว่าที่ 79%/3% เว้นระยะห่างจากทั้งซองด้านบนและ
+   ข้อความ TWO HEARTS ด้านล่างได้พอดี ไม่ทับทั้งสองฝั่ง) */
+#opening-screen .tap-hint{top:79%}
+#opening-screen .opening-motto{bottom:3%}
 @media(max-height:650px){
  #opening-screen .opening-message{top:7%}
  #opening-screen .opening-message strong{font-size:48px}
