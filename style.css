@@ -1049,10 +1049,14 @@ footer .f-note{ margin-top:16px; font-size:12px; opacity:.55; }
   background-repeat:no-repeat; background-size:450% auto;
   box-shadow:0 0 0 8px rgba(241,233,218,.7);
 }
-.icon-rings{ background-position:34% 33.1%; }
+/* ตำแหน่งตัดรูปในสไปรต์ schedule-icons.png (4 วงเรียงกัน: แหวน/รดน้ำ/แก้วชนกัน/โน้ตดนตรี)
+   ของเดิม icon-rings ดันไปชี้ตำแหน่งเดียวกับ icon-water (เลยเห็นเป็นรูปขันน้ำซ้ำกัน)
+   ส่วน icon-party ดันไปชี้ตำแหน่งของ icon-rings (เลยไม่มีใครไปชี้รูปโน้ตดนตรีเลย
+   ทำให้ไอคอน After Party หายไป) แก้ให้ชี้ตำแหน่งที่ถูกต้องครบทั้ง 4 วง */
+.icon-rings{ background-position:3% 33%; }
 .icon-water{ background-position:34% 33.1%; }
 .icon-cheers{ background-position:66% 33.1%; }
-.icon-party{ background-position:3% 33%; }
+.icon-party{ background-position:98% 33.1%; }
 .sch-what span{ display:block; color:var(--sage-deep); font-family:var(--serif-en); font-weight:600; font-size:clamp(16px,3vw,20px); letter-spacing:.14em; }
 .sch-what p{ max-width:29ch; margin-top:6px; }
 
